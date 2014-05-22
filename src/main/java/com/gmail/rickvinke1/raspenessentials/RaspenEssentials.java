@@ -25,6 +25,11 @@ public final class RaspenEssentials extends JavaPlugin {
     	getCommand("feed").setExecutor(new RaspenEssentialsCommandExecutor());
         getServer().getPluginManager().registerEvents(new Listener() {  
         	
+        }, this);
+        
+        	getCommand("gamemode").setExecutor(new CommandGamemode());
+            getServer().getPluginManager().registerEvents(new Listener() { 
+        	
   
             @EventHandler
             public void playerJoin(PlayerJoinEvent event) {

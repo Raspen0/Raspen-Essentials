@@ -13,6 +13,9 @@ commands:
    rreload:
       description: Reloads the RaspenEssentials Config
       usage: /rreload
+   gamemode:
+      description: Sets the gamemode
+      usage: /gamemode
 permissions:
    raspen.heal:
       description: Allows you to heal yourself
@@ -28,4 +31,10 @@ permissions:
       default: op
    raspen.heal.others:
       description: Allows you to heal other players
+      default: op
+   raspen.gamemode:
+      description: Sets the gamemode
+      default: op
+   raspen.gamemode.others:
+      description: Sets the gamemode of another player
       default: op

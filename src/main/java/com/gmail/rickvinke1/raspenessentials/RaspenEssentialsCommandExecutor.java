@@ -51,6 +51,7 @@ public class RaspenEssentialsCommandExecutor implements CommandExecutor {
 
 						}
 			}
+					//feed command
 		} else if (cmd.getName().equalsIgnoreCase("feed")) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
@@ -88,8 +89,12 @@ public class RaspenEssentialsCommandExecutor implements CommandExecutor {
 							return true;
 					}
 					
-				}
-			}
+					}
+		}
+
+							
+				
+		sender.sendMessage(ChatColor.RED + "Something went wrong");
 		return true;
 	}
 }
