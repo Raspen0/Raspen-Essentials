@@ -1,0 +1,31 @@
+name: RaspenEssentials
+author: raspen0
+main: com.gmail.rickvinke1.raspenessentials.RaspenEssentials
+version: 0.1
+prefix: REssentials
+commands:
+   heal:
+      description: Heals The Player.
+      usage: /heal {Player}
+   feed:
+      description: Feeds The Player.
+      usage: /feed {Player}
+   rreload:
+      description: Reloads the RaspenEssentials Config
+      usage: /rreload
+permissions:
+   raspen.heal:
+      description: Allows you to heal yourself
+      default: op
+   raspen.rreload:
+      description: Reloads the config
+      default: op
+   raspen.feed:
+      description: Allows you to feed yourself
+      default: op
+   raspen.feed.others:
+      description: Allows you to feed other players
+      default: op
+   raspen.heal.others:
+      description: Allows you to heal other players
+      default: op
