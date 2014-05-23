@@ -17,12 +17,12 @@ public final class RaspenEssentials extends JavaPlugin {
         // Save a copy of the default config.yml if one is not there
         this.saveDefaultConfig();
         if(getConfig().getBoolean("heal", true)){
-        	getCommand("heal").setExecutor(new RaspenEssentialsCommandExecutor());
+        	getCommand("heal").setExecutor(new CommandHeal());
         	} else {
         	      getLogger().info("Heal is disabled!");
         	}
         // TODO Insert logic to be performed when the plugin is enabled
-    	getCommand("feed").setExecutor(new RaspenEssentialsCommandExecutor());
+    	getCommand("feed").setExecutor(new CommandFeed());
         getServer().getPluginManager().registerEvents(new Listener() {  
         	
         }, this);
