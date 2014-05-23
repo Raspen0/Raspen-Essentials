@@ -16,6 +16,7 @@ commands:
    gamemode:
       description: Sets the gamemode
       usage: /gamemode
+      aliases: [gm]
 permissions:
    raspen.heal:
       description: Allows you to heal yourself
