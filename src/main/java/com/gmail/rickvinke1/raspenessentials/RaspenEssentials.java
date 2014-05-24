@@ -33,8 +33,15 @@ public final class RaspenEssentials extends JavaPlugin {
             	
             	getCommand("fly").setExecutor(new CommandFly());
                 getServer().getPluginManager().registerEvents(new Listener() { 
-        	
-  
+                }, this);
+                
+            	getCommand("spawn").setExecutor(new CommandSpawn());
+                getServer().getPluginManager().registerEvents(new Listener() { 
+                }, this);
+                
+            	getCommand("setspawn").setExecutor(new CommandSpawn());
+                getServer().getPluginManager().registerEvents(new Listener() { 
+                	
             @EventHandler
             public void playerJoin(PlayerJoinEvent event) {
                 // On player join send them the message from config.yml

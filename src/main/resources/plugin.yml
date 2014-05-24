@@ -20,6 +20,12 @@ commands:
    fly:
       description: Toggles flying
       usage: /fly
+   spawn:
+      description: Allows you to teleport to the world spawn
+      usage: /spawn
+   setspawn:
+      description: Allows you to set the world spawn
+      usage: /setspawn
 permissions:
    raspen.heal:
       description: Allows you to heal yourself
@@ -44,4 +50,10 @@ permissions:
       default: op
    raspen.fly:
       description: Toggles flying
+      default: op
+   raspen.spawn:
+      description: Allows you to teleport to the world spawn
+      default: true
+   raspen.setspawn:
+      description: Allows you to set the world spawn
       default: op
