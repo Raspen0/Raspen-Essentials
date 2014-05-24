@@ -17,6 +17,9 @@ commands:
       description: Sets the gamemode
       usage: /gamemode
       aliases: [gm]
+   fly:
+      description: Toggles flying
+      usage: /fly
 permissions:
    raspen.heal:
       description: Allows you to heal yourself
@@ -38,4 +41,7 @@ permissions:
       default: op
    raspen.gamemode.others:
       description: Sets the gamemode of another player
+      default: op
+   raspen.fly:
+      description: Toggles flying
       default: op
