@@ -10,9 +10,9 @@ commands:
    feed:
       description: Feeds The Player.
       usage: /feed {Player}
-   rreload:
+   rereload:
       description: Reloads the RaspenEssentials Config
-      usage: /rreload
+      usage: /rereload
    gamemode:
       description: Sets the gamemode
       usage: /gamemode
@@ -30,7 +30,7 @@ permissions:
    raspen.heal:
       description: Allows you to heal yourself
       default: op
-   raspen.rreload:
+   raspen.reload:
       description: Reloads the config
       default: op
    raspen.feed:
