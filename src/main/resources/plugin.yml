@@ -1,8 +1,8 @@
 name: RaspenEssentials
 author: raspen0
-main: nl.raspen0.RaspenEssentials
+main: nl.raspen0.RaspenEssentials.RaspenEssentials
 version: 0.2
-prefix: REssentials
+prefix: RE
 commands:
    heal:
       description: Heals The Player.
