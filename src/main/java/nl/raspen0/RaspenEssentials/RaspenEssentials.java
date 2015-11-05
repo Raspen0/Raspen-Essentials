@@ -1,6 +1,5 @@
 package nl.raspen0.RaspenEssentials;
 
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -8,11 +7,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RaspenEssentials extends JavaPlugin {
 	
-	public String prefix = "[RE] ";
-	public String NoPerm = ChatColor.RED + prefix + "You don't have the permission to use this";
+	public static RaspenEssentials plugin;
 	
     @Override
     public void onEnable() {
+    	
+    	plugin = this;
     	
         // Save a copy of the default config.yml if one is not there
         this.saveDefaultConfig();
@@ -20,7 +20,7 @@ public final class RaspenEssentials extends JavaPlugin {
         if(getConfig().getBoolean("heal", true)){
         	getCommand("heal").setExecutor(new CommandHeal());
         	} else {
-        	      getLogger().info(prefix + "Heal is disabled!");
+        	      getLogger().info(Strings.prefix + "Heal is disabled!");
         	}
         
         
