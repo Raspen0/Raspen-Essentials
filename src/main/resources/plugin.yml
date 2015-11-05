@@ -1,7 +1,7 @@
 name: RaspenEssentials
 author: raspen0
-main: com.gmail.rickvinke1.raspenessentials.RaspenEssentials
-version: 0.1
+main: nl.raspen0.RaspenEssentials
+version: 0.2
 prefix: REssentials
 commands:
    heal:

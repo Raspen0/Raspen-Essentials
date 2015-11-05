@@ -1,4 +1,4 @@
-package com.gmail.rickvinke1.raspenessentials;
+package nl.raspen0.RaspenEssentials;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
