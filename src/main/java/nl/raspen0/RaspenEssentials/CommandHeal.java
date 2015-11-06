@@ -46,6 +46,7 @@ public class CommandHeal implements CommandExecutor {
 				}
 				//If Player
 				if ((sender instanceof Player)) {
+					if (!(target == null)) {
 					Player player = (Player) sender;
 					if (!player.hasPermission("raspen.heal.others")) {
 						sender.sendMessage(Strings.NoPerm);
@@ -55,6 +56,9 @@ public class CommandHeal implements CommandExecutor {
 					target.setHealth(health);
 					sender.sendMessage(Strings.infoprefix + args[0] + " is now healed.");
 					return true;
+				} else
+				sender.sendMessage(ChatColor.RED + "[RE] " + args[0] + " is not currently online.");
+					
 				}
 
 			}

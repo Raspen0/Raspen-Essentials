@@ -46,6 +46,7 @@ public class CommandFeed implements CommandExecutor {
 				}
 				//If Player
 				if ((sender instanceof Player)) {
+					if (!(target == null)) {
 					Player player = (Player) sender;
 					if (!player.hasPermission("raspen.feed.others")) {
 						sender.sendMessage(Strings.NoPerm);
@@ -55,6 +56,8 @@ public class CommandFeed implements CommandExecutor {
 					target.setSaturation(20);
 					sender.sendMessage(Strings.infoprefix + args[0] + " is now feeded.");
 					return true;
+				} else
+				sender.sendMessage(ChatColor.RED + "[RE] " + args[0] + " is not currently online.");
 				}
 
 			}
