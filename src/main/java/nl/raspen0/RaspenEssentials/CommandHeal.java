@@ -40,7 +40,8 @@ public class CommandHeal implements CommandExecutor {
 					if (!(target == null)) {
 						double health = target.getMaxHealth();
 						target.setHealth(health);
-					}
+						sender.sendMessage(Strings.infoprefix + args[0] +  " has been healed");
+					} else
 					sender.sendMessage(ChatColor.RED + "[RE] " + args[0] + " is not currently online.");
 				}
 				//If Player
@@ -58,7 +59,7 @@ public class CommandHeal implements CommandExecutor {
 
 			}
 
-		}
+		} 
 		return true;
 	}
 }
