@@ -1,7 +1,6 @@
 package nl.raspen0.RaspenEssentials;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,107 +11,74 @@ import org.bukkit.entity.Player;
 public class CommandGamemode implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		// gamemode command
-    	ConsoleCommandSender console = Bukkit.getConsoleSender();
 		if (cmd.getName().equalsIgnoreCase("gamemode")) {
-			//if the sender is console
-		 if(sender instanceof ConsoleCommandSender){
-			 if (args.length == 1) {
-			sender.sendMessage(ChatColor.RED + "[RE] You can't change the gamemode of the console");
-			 }
-			if (args.length == 0) {
-				sender.sendMessage(ChatColor.RED
-						+ "[RE] Usage: Gamemode [SURVIVAL, CREATIVE, ADVENTURE] [PLAYER]");
-			}
+			if (sender.hasPermission("raspen.gamemode")) {
+				if (args.length == 0) {
+					sender.sendMessage(Strings.problemprefix
+							+ "Usage: Gamemode [SURVIVAL, CREATIVE, ADVENTURE, SPECTATOR] [PLAYER]");
+				}
+
+				if (args.length == 1) {
+					if (sender instanceof ConsoleCommandSender) {
+						sender.sendMessage(Strings.problemprefix + "You can't change the gamemode of the console");
+					}
+					if (sender instanceof Player) {
+						Player player = (Player) sender;
+						this.GamemodeChange(player, args);
+					}
+				}
 				if (args.length == 2) {
-					sender.sendMessage(ChatColor.RED
-							+ "[RE] Changing gamemodes from the console is a planned function");
+					if(sender.hasPermission("raspen.gamemode.others")){
+					@SuppressWarnings("deprecation")
+					Player target = sender.getServer().getPlayer(args[1]);
+					
+					if (target == null) {
+						 sender.sendMessage(Strings.problemprefix + args[1] + " is currently not online.");
+					} else {
+					this.GamemodeChange(target, args);
+				}
+					}
+					else{
+						sender.sendMessage(Strings.NoPerm);
+					}
+				}
 			}
-		 }
-		 //if sender is player
-		 if ((sender instanceof Player)) {
-			// gamemode permission check
-			Player player = (Player) sender;
-			if (!player.hasPermission("raspen.gamemode")) {
-				sender.sendMessage(ChatColor.RED
-						+ "You don't have the permission to use this");
-				return true;
+			else {
+				sender.sendMessage(Strings.NoPerm);
 			}
-			// gamemode arguments check
-			// if only /gamemode is typed
-			if (args.length == 0) {
-				sender.sendMessage(ChatColor.RED
-						+ "[RE] Usage: Gamemode [SURVIVAL, CREATIVE, ADVENTURE] [PLAYER]");
-			} else {
-			// if /gamemode [type] is typed
-			if (args.length == 1) {
-				//creative mode
-				if (args[0].equals("1")|| args[0].equalsIgnoreCase("c")|| (args[0].equalsIgnoreCase("creative"))) {
-					player.setGameMode(GameMode.CREATIVE);
-					sender.sendMessage(ChatColor.GREEN + "[RE] Gamemode changed to CREATIVE");
-					console.sendMessage("[REssentials] " + (sender.getName() + "'s gamemode was changed to CREATIVE"));
-					//survival mode
-				} else if (args[0].equals("0")|| args[0].equalsIgnoreCase("s")|| (args[0].equalsIgnoreCase("survival"))) {
-					player.setGameMode(GameMode.SURVIVAL);
-					sender.sendMessage(ChatColor.GREEN + "[RE] Gamemode changed to SURVIVAL");
-					console.sendMessage("[REssentials] " + (sender.getName() + "'s gamemode was changed to SURVIVAL"));
-					//adventure mode
-				} else if (args[0].equals("2")|| args[0].equalsIgnoreCase("a")|| (args[0].equalsIgnoreCase("adventure"))) {
-					player.setGameMode(GameMode.ADVENTURE);
-					sender.sendMessage(ChatColor.GREEN + "[RE] Gamemode changed to ADVENTURE");
-					console.sendMessage("[REssentials] " + (sender.getName() + "'s gamemode was changed to ADVENTURE"));
-					//if mode is false return usage
-				} else
-					sender.sendMessage(ChatColor.RED
-							+ "[RE] Usage: Gamemode [SURVIVAL, CREATIVE, ADVENTURE] [PLAYER]");
-				return true;
-			}
-			//gamemode others permission check
-			else if (!player.hasPermission("raspen.gamemode.others")) {
-				sender.sendMessage(ChatColor.RED
-						+ "You don't have the permission to use this");
-				return true;
-			}
-			//gamemode other players
-			@SuppressWarnings("deprecation")
-			Player target = sender.getServer().getPlayer(args[1]);
-			if (target == null) {
-				 sender.sendMessage("[RE] " + args[1]
-						+ " is not currently online.");
-			} else {
-			if (args.length == 2) {
-				//creative others
-				if (args[0].equals("1")|| args[0].equalsIgnoreCase("c")|| (args[0].equalsIgnoreCase("creative"))) {
-					target.setGameMode(GameMode.CREATIVE);
-					sender.sendMessage(ChatColor.GREEN + "[RE] " + args[1] + "'s gamemode changed to CREATIVE");
-					target.sendMessage(ChatColor.GREEN + "[RE] Your Gamemode has changed to CREATIVE");
-					console.sendMessage("[REssentials] " + (args[1] + "'s gamemode was changed to CREATIVE"));
-					//survival others
-				} else if (args[0].equals("0")|| args[0].equalsIgnoreCase("s")|| (args[0].equalsIgnoreCase("survival"))) {
-					target.setGameMode(GameMode.SURVIVAL);
-					sender.sendMessage(ChatColor.GREEN + "[RE] " + args[1] + "'s gamemode changed to SURVIVAL");
-					target.sendMessage(ChatColor.GREEN + "[RE] Your Gamemode has changed to SURVIVAL");
-					console.sendMessage("[REssentials] " + (args[1] + "'s gamemode was changed to SURVIVAL"));
-					//adventure others
-				} else if (args[0].equals("2")|| args[0].equalsIgnoreCase("a")|| (args[0].equalsIgnoreCase("adventure"))) {
-					target.setGameMode(GameMode.ADVENTURE);
-					sender.sendMessage(ChatColor.GREEN + "[RE] " + args[1] + "'s gamemode changed to ADVENTURE");
-					target.sendMessage(ChatColor.GREEN + "[RE] Your Gamemode has changed to ADVENTURE");
-					console.sendMessage("[REssentials] " + (args[1] + "'s gamemode was changed to ADVENTURE"));
-					// if gamemode is false, return usage
-				} else
-					sender.sendMessage(ChatColor.RED
-							+ "[RE] Usage: Gamemode [SURVIVAL, CREATIVE, ADVENTURE] [PLAYER]");
-				return true;
-		
-	}
-	}
+				
+		}
+
+		return true;
 	}
 
-		 }
-			}
-		return true;
+	public void GamemodeChange(Player target, String[] args) {
+		ConsoleCommandSender console = Bukkit.getConsoleSender();
+		//survival mode
+		if (args[0].equals("0") || args[0].equalsIgnoreCase("s") || (args[0].equalsIgnoreCase("survival"))) {
+			target.setGameMode(GameMode.SURVIVAL);
+			target.sendMessage(Strings.infoprefix + "Gamemode changed to SURVIVAL");
+			console.sendMessage(Strings.infoprefix + target.getDisplayName() + "'s gamemode changed to SURVIVAL");
+		//creative mode
+		} else if (args[0].equals("1") || args[0].equalsIgnoreCase("c") || (args[0].equalsIgnoreCase("creative"))) {
+			target.setGameMode(GameMode.CREATIVE);
+			target.sendMessage(Strings.infoprefix + "Gamemode changed to CREATIVE");
+			console.sendMessage(Strings.infoprefix + target.getDisplayName() + "'s gamemode changed to CREATIVE");
+		//adventure mode
+		} else if (args[0].equals("2") || args[0].equalsIgnoreCase("a") || (args[0].equalsIgnoreCase("adventure"))) {
+			target.setGameMode(GameMode.ADVENTURE);
+			target.sendMessage(Strings.infoprefix + "Gamemode changed to ADVENTURE");
+			console.sendMessage(Strings.infoprefix + target.getDisplayName() + "'s gamemode changed to ADVENTURE");
+		//spectator mode
+		} else if (args[0].equals("3") || args[0].equalsIgnoreCase("sp") || (args[0].equalsIgnoreCase("spectator"))) {
+			target.setGameMode(GameMode.SPECTATOR);
+			target.sendMessage(Strings.infoprefix + "Gamemode changed to SPECTATOR");
+			console.sendMessage(Strings.infoprefix + target.getDisplayName() + "'s gamemode changed to SPECTATOR");
+			
+		} else
+			target.sendMessage(
+					Strings.problemprefix + "Usage: Gamemode [SURVIVAL, CREATIVE, ADVENTURE, SPECTATOR] [PLAYER]");
 	}
 }
