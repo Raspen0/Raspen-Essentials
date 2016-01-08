@@ -39,10 +39,18 @@ public class RaspenEssentials
     getLogger().info("Starting");
     
     CommandSpec healCommandSpec = 
-      CommandSpec.builder().description(Text.of("Heal Command")).permission("raspen.heal")
-      .arguments(GenericArguments.seq(new CommandElement[] {
-      GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
-      .executor(new CommandHeal()).build();
+    CommandSpec.builder().description(Text.of("Heal Command")).permission("raspen.heal")
+    .arguments(GenericArguments.seq(new CommandElement[] {
+    GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
+    .executor(new CommandHeal()).build();
+    
+    CommandSpec feedCommandSpec = 
+    CommandSpec.builder().description(Text.of("Feed Command")).permission("raspen.feed")
+    .arguments(GenericArguments.seq(new CommandElement[] {
+    GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
+    .executor(new CommandFeed()).build();
+    
     getGame().getCommandManager().register(this, healCommandSpec, new String[] { "heal" });
+    getGame().getCommandManager().register(this, feedCommandSpec, new String[] { "feed" });
   }
 }
