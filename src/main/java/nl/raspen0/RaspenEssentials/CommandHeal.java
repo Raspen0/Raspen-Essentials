@@ -38,7 +38,7 @@ public class CommandHeal implements CommandExecutor
     } else {
     		src.sendMessage(Text.of(TextColors.RED,("You do not have permission to heal other players")));
     }
-    }
+    } 
     return CommandResult.success();
   }
 }
