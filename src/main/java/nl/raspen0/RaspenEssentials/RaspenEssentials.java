@@ -17,6 +17,9 @@ public class RaspenEssentials
 {
   private Logger logger;
   
+  public static String version = "1.0";
+  public static String name = "RaspenEssentials";
+  
   @Inject
   private void setLogger(Logger logger)
   {
@@ -37,6 +40,12 @@ public class RaspenEssentials
   public void onServerStart(GameStartedServerEvent event)
   {
     getLogger().info("Starting");
+    
+    CommandSpec mainCommandSpec = 
+    CommandSpec.builder().description(Text.of("Main Command")).permission("raspen.main")
+    .arguments(GenericArguments.seq(new CommandElement[] {
+    GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.string(Text.of("argument")))) }))
+    .executor(new CommandMain()).build();
     
     CommandSpec healCommandSpec = 
     CommandSpec.builder().description(Text.of("Heal Command")).permission("raspen.heal")
@@ -60,5 +69,6 @@ public class RaspenEssentials
     getGame().getCommandManager().register(this, healCommandSpec, new String[] { "heal" });
     getGame().getCommandManager().register(this, feedCommandSpec, new String[] { "feed" });
     getGame().getCommandManager().register(this, gamemodeCommandSpec, new String[] { "gamemode", "gm" });
+    getGame().getCommandManager().register(this, mainCommandSpec, new String[] { "raspenessentials", "re" });
   }
 }
