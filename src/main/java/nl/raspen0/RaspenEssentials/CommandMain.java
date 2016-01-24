@@ -17,7 +17,7 @@ public class CommandMain implements CommandExecutor{
 	    Optional<String> target = ctx.<String> getOne("argument");
 		
 		if(!target.isPresent()){
-			//Todo
+    		src.sendMessage(Text.of(TextColors.RED,("/raspenessentials [version/reload]")));
 		}
 		
 		else if(target.isPresent()){

@@ -66,6 +66,11 @@ public class RaspenEssentials
     GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
     .executor(new CommandGamemode()).build();
     
+    CommandSpec flyCommandSpec = 
+    CommandSpec.builder().description(Text.of("Fly Command")).permission("raspen.fly")
+    .executor(new CommandFly()).build();
+    
+    getGame().getCommandManager().register(this, flyCommandSpec, new String[] { "fly" });
     getGame().getCommandManager().register(this, healCommandSpec, new String[] { "heal" });
     getGame().getCommandManager().register(this, feedCommandSpec, new String[] { "feed" });
     getGame().getCommandManager().register(this, gamemodeCommandSpec, new String[] { "gamemode", "gm" });
