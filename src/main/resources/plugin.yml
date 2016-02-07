@@ -1,0 +1,59 @@
+name: RaspenEssentials
+author: raspen0
+main: nl.raspen0.RaspenEssentials.BukkitMain
+version: 0.2
+prefix: RE
+commands:
+   heal:
+      description: Heals The Player.
+      usage: /heal {Player}
+   feed:
+      description: Feeds The Player.
+      usage: /feed {Player}
+   rereload:
+      description: Reloads the RaspenEssentials Config
+      usage: /rereload
+   gamemode:
+      description: Sets the gamemode
+      usage: /gamemode
+      aliases: [gm]
+   fly:
+      description: Toggles flying
+      usage: /fly
+   spawn:
+      description: Allows you to teleport to the world spawn
+      usage: /spawn
+   setspawn:
+      description: Allows you to set the world spawn
+      usage: /setspawn
+permissions:
+   raspen.heal:
+      description: Allows you to heal yourself
+      default: op
+   raspen.reload:
+      description: Reloads the config
+      default: op
+   raspen.feed:
+      description: Allows you to feed yourself
+      default: op
+   raspen.feed.others:
+      description: Allows you to feed other players
+      default: op
+   raspen.heal.others:
+      description: Allows you to heal other players
+      default: op
+   raspen.gamemode:
+      description: Sets the gamemode
+      default: op
+   raspen.gamemode.others:
+      description: Sets the gamemode of another player
+      default: op
+   raspen.fly:
+      description: Toggles flying
+      default: op
+   raspen.spawn:
+      description: Allows you to teleport to the world spawn
+      default: true
+   raspen.setspawn:
+      description: Allows you to set the world spawn
+      default: op
