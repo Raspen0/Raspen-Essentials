@@ -23,8 +23,11 @@ public class CommandTP implements CommandExecutor{
 		Optional<String> arg3 = args.<String> getOne("arg3");
 		Optional<String> arg4 = args.<String> getOne("arg4");
 		
+		
+		
+		
 		//If there's 1 argument
-		if(!arg2.isPresent()){
+		 if(!arg2.isPresent()){
 			//tp src to player
 			if(Sponge.getServer().getPlayer(arg1).isPresent()){
 				Player srcplayer = (Player) src;
@@ -41,8 +44,13 @@ public class CommandTP implements CommandExecutor{
 			if(arg1.equalsIgnoreCase("-w")){
 				if(src.hasPermission("raspen.tp.world.self")){
 				Player srcplayer = (Player) src;
-				Optional<World> world = Sponge.getServer().getWorld(arg2.get());
-				srcplayer.transferToWorld(arg2.get(), world.get().getSpawnLocation().getPosition());
+				String targetworld = worldNames(arg2.get());
+				if(Sponge.getServer().getWorld(targetworld).isPresent()){
+				Optional<World> world = Sponge.getServer().getWorld(targetworld);
+				srcplayer.transferToWorld(targetworld, world.get().getSpawnLocation().getPosition());
+				} else {
+					src.sendMessage(Text.of(TextColors.RED, "Cant find world " + targetworld));
+				}
 				}
 			} else if(Sponge.getServer().getPlayer(arg1).isPresent()){ 
 				//tp player1 to player2
@@ -65,10 +73,13 @@ public class CommandTP implements CommandExecutor{
 			//tp other player to world
 			if (arg2.get().equalsIgnoreCase("-w")){
 				if(src.hasPermission("raspen.tp.world.others")){
-				if(Sponge.getServer().getPlayer(arg1).isPresent()){ 
+				if(Sponge.getServer().getPlayer(arg1).isPresent()){
 					Optional<Player> player = Sponge.getServer().getPlayer(arg1);
-					Optional<World> world = Sponge.getServer().getWorld(arg3.get());
-					player.get().transferToWorld(arg3.get(), world.get().getSpawnLocation().getPosition());
+					String targetworld = worldNames(arg3.get());
+					if(Sponge.getServer().getWorld(targetworld).isPresent()){
+					Optional<World> world = Sponge.getServer().getWorld(targetworld);
+					player.get().transferToWorld(targetworld, world.get().getSpawnLocation().getPosition());
+				}
 				}
 			}
 			}
@@ -96,6 +107,20 @@ public class CommandTP implements CommandExecutor{
 
 	
 	    return CommandResult.success();
+	}
+	
+	public String worldNames (String targetworld){
+		String defaultworld = Sponge.getServer().getDefaultWorld().get().getWorldName();
+		if(targetworld.equalsIgnoreCase(defaultworld + "_nether") || targetworld.equalsIgnoreCase("-1")){
+			targetworld = "DIM-1";
+		}
+		if(targetworld.equalsIgnoreCase(defaultworld + "_end") || targetworld.equalsIgnoreCase(targetworld + "_the_end") || targetworld.equalsIgnoreCase("1")){
+			targetworld = "DIM1";
+		}
+		if(targetworld.equalsIgnoreCase("0")){
+			targetworld = defaultworld;
+		}
+		return targetworld;
 	}
 	
 	public static boolean isInt(String s) {
