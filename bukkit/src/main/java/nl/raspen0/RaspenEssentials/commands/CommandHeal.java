@@ -1,4 +1,4 @@
-package nl.raspen0.RaspenEssentials.Bukkit;
+package nl.raspen0.RaspenEssentials.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 
 import nl.raspen0.RaspenEssentials.Strings;
 
-public class CommandFeed implements CommandExecutor {
+public class CommandHeal implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("feed")) {
-			// Feed yourself
+		if (cmd.getName().equalsIgnoreCase("heal")) {
+			// Heal yourself
 			if (args.length == 0) {
 				if (!(sender instanceof Player)) {
 					sender.sendMessage(ChatColor.RED + "[RE] This command can only be run by a player.");
@@ -22,14 +22,14 @@ public class CommandFeed implements CommandExecutor {
 				
 				//Check Permissions
 				Player player = (Player) sender;
-				if (!player.hasPermission("raspen.feed")) {
+				if (!player.hasPermission("raspen.heal")) {
 					sender.sendMessage(Strings.NoPerm);
 				}
 				
-				//Feed Event
-				player.setFoodLevel(20);
-				player.setSaturation(20);
-				sender.sendMessage(Strings.infoprefix + "You're now feeded.");
+				//Heal Event
+				double health = player.getMaxHealth();
+				player.setHealth(health);
+				sender.sendMessage(Strings.infoprefix + "You're now healed.");
 				return true;
 
 				//Heal Others
@@ -40,9 +40,9 @@ public class CommandFeed implements CommandExecutor {
 				//If Console
 				if (sender instanceof ConsoleCommandSender) {
 					if (!(target == null)) {
-						target.setFoodLevel(20);
-						target.setSaturation(20);
-						sender.sendMessage(Strings.infoprefix + args[0] +  " has been feeded");
+						double health = target.getMaxHealth();
+						target.setHealth(health);
+						sender.sendMessage(Strings.infoprefix + args[0] +  " has been healed");
 					} else
 					sender.sendMessage(ChatColor.RED + "[RE] " + args[0] + " is not currently online.");
 				}
@@ -50,21 +50,22 @@ public class CommandFeed implements CommandExecutor {
 				if ((sender instanceof Player)) {
 					if (!(target == null)) {
 					Player player = (Player) sender;
-					if (!player.hasPermission("raspen.feed.others")) {
+					if (!player.hasPermission("raspen.heal.others")) {
 						sender.sendMessage(Strings.NoPerm);
 					}
 
-					target.setFoodLevel(20);
-					target.setSaturation(20);
-					sender.sendMessage(Strings.infoprefix + args[0] + " is now feeded.");
+					double health = target.getMaxHealth();
+					target.setHealth(health);
+					sender.sendMessage(Strings.infoprefix + args[0] + " is now healed.");
 					return true;
 				} else
 				sender.sendMessage(ChatColor.RED + "[RE] " + args[0] + " is not currently online.");
+					
 				}
 
 			}
 
-		}
+		} 
 		return true;
 	}
 }

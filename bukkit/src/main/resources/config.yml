@@ -1,2 +1,5 @@
 MOTD: This is the default MOTD
 Heal: true
+
+langs:
+ - en

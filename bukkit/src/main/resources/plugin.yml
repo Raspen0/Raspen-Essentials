@@ -1,6 +1,6 @@
 name: RaspenEssentials
 author: raspen0
-main: nl.raspen0.RaspenEssentials.BukkitMain
+main: nl.raspen0.RaspenEssentials.RaspenEssentials
 version: 0.2
 prefix: RE
 commands:

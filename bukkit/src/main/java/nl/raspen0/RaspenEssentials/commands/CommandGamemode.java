@@ -1,4 +1,4 @@
-package nl.raspen0.RaspenEssentials.Bukkit;
+package nl.raspen0.RaspenEssentials.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
