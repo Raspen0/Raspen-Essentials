@@ -17,9 +17,8 @@ import nl.raspen0.RaspenEssentials.Sponge.CommandFly;
 import nl.raspen0.RaspenEssentials.Sponge.CommandGamemode;
 import nl.raspen0.RaspenEssentials.Sponge.CommandHeal;
 import nl.raspen0.RaspenEssentials.Sponge.CommandMain;
-import nl.raspen0.RaspenEssentials.Sponge.CommandTP;
 
-@Plugin(id="RaspenEssentials", name="RaspenEssentials", version="1.0")
+@Plugin(id="raspenessentials", name="RaspenEssentials", version="1.0")
 public class SpongeMain
 {
   private Logger logger;
@@ -27,6 +26,19 @@ public class SpongeMain
   public static String version = "1.0";
   public static String name = "RaspenEssentials";
   
+ /* @Listener
+  public void tabComplete (TabCompleteEvent.Command event){
+	  if(event.getCommand().equalsIgnoreCase("tp")){
+		  String[] args = event.getArguments().split(" ");
+		  if(args.length == 1){
+			  Collection<String> names = event.getTabCompletions();
+			  int args1 = Sponge.getServer().getOnlinePlayers().size();
+			  System.out.println(args1);
+			  //names.add(arg1);
+		  }
+	  }
+  }
+  */
   @Inject
   private void setLogger(Logger logger)
   {
@@ -73,20 +85,20 @@ public class SpongeMain
     GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
     .executor(new CommandGamemode()).build();
     
-    CommandSpec TPCommandSpec = 
+/*    CommandSpec TPCommandSpec = 
     CommandSpec.builder().description(Text.of("TP Command")).permission("raspen.tp.main")
     .arguments(GenericArguments.seq(new CommandElement[] {
-    GenericArguments.onlyOne(GenericArguments.string(Text.of("arg1"))),
+    GenericArguments.onlyOne(GenericArguments.player(Text.of("arg1"))),
     GenericArguments.optional(GenericArguments.string(Text.of("arg2"))), 
     GenericArguments.optional(GenericArguments.string(Text.of("arg3"))),
     GenericArguments.optional(GenericArguments.string(Text.of("arg4")))}))
     .executor(new CommandTP()).build();
-    
+  */  
     CommandSpec flyCommandSpec = 
     CommandSpec.builder().description(Text.of("Fly Command")).permission("raspen.fly")
     .executor(new CommandFly()).build();
     
-    getGame().getCommandManager().register(this, TPCommandSpec, new String[] { "tp", "teleport" });
+ //   getGame().getCommandManager().register(this, TPCommandSpec, new String[] { "tp", "teleport" });
     getGame().getCommandManager().register(this, flyCommandSpec, new String[] { "fly" });
     getGame().getCommandManager().register(this, healCommandSpec, new String[] { "heal" });
     getGame().getCommandManager().register(this, feedCommandSpec, new String[] { "feed" });

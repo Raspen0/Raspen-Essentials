@@ -1,4 +1,4 @@
-package nl.raspen0.RaspenEssentials.Sponge;
+/*package nl.raspen0.RaspenEssentials.Sponge;
 
 import java.util.Optional;
 
@@ -18,13 +18,10 @@ public class CommandTP implements CommandExecutor{
 	
 
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		String arg1 = args.<String> getOne("arg1").get();
-		Optional<String> arg2 = args.<String> getOne("arg2");
+		String arg1 = args.<Player> getOne("arg1").get().getName();
+		Optional<String> arg2 = args.<Player> getOne("arg2");
 		Optional<String> arg3 = args.<String> getOne("arg3");
 		Optional<String> arg4 = args.<String> getOne("arg4");
-		
-		
-		
 		
 		//If there's 1 argument
 		 if(!arg2.isPresent()){
@@ -133,3 +130,4 @@ public class CommandTP implements CommandExecutor{
 	}
 
 }
+*/
