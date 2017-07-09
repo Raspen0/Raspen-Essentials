@@ -22,7 +22,7 @@ public class LangHandler {
 		}
 		String message = "";
 		try{
-			message = plugin.langlist.get(lang + messageID);
+			message = ChatColor.translateAlternateColorCodes('&', plugin.langlist.get(lang + messageID));
 		} catch (NullPointerException e){
 			try{
 				message = plugin.langlist.get("en" + messageID);

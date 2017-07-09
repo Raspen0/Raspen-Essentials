@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,7 @@ import nl.raspen0.RaspenEssentials.commands.CommandHeal;
 import nl.raspen0.RaspenEssentials.commands.CommandReload;
 import nl.raspen0.RaspenEssentials.commands.CommandSpawn;
 
-public class RaspenEssentials extends JavaPlugin {
+public class RaspenEssentials extends JavaPlugin implements Listener {
 	
     public Map<String, String> langlist = new HashMap<String, String>();
 	
@@ -28,7 +29,7 @@ public class RaspenEssentials extends JavaPlugin {
         saveDefaultConfig();
         loadLangs();
         loadCommands();
-		getServer().getPluginManager().registerEvents(new Listener() {}, this);
+        getServer().getPluginManager().registerEvents(this, this);
     }
     
     private void loadLangs(){
@@ -74,6 +75,4 @@ public class RaspenEssentials extends JavaPlugin {
 		// On player join send them the message from config
 		event.getPlayer().sendMessage(RaspenEssentials.this.getConfig().getString("MOTD"));
 	}
-        
-
 }

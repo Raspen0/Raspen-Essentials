@@ -3,3 +3,7 @@
 /.settings
 .classpath
 build.bat
+bukkit/.settings/
+sponge/.settings/
+sponge/.gitignore
+bukkit/.gitignore
