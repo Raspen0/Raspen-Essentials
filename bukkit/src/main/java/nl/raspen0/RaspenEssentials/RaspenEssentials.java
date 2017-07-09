@@ -1,12 +1,15 @@
 package nl.raspen0.RaspenEssentials;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,6 +38,27 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
     private void loadLangs(){
     	//Load the languages listed in the config
     	List<String> langs = getConfig().getStringList("langs");
+    	
+    	//Load enabled language overrides from /RaspenEssentials/lang/ if the folder exists
+    	File dir = new File(getDataFolder() + "/lang/");
+    	if(dir.exists()){
+    		Iterator<String> iterator = langs.iterator();
+    		while(iterator.hasNext()){
+    			String it = iterator.next();
+        		File file = new File(dir + "/lang_" + it + ".yml");
+				if(!file.exists()){
+					continue;
+				}
+				FileConfiguration lang = YamlConfiguration.loadConfiguration(file);
+				for(String key : lang.getKeys(false)){
+					langlist.put(it + key, lang.getString(key));
+				}
+				getLogger().info("Loaded custom " + it +  " language!");
+				//Remove lang from list so it doesn't get loaded 2 times.
+				iterator.remove();
+    		}
+    	}
+    	//Load enabled languages from jar
     	for(String s : langs){
     		try {
         		YamlConfiguration defaults = new YamlConfiguration();
@@ -44,6 +68,8 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
 				}
 				getLogger().info("Loaded " + s +  " language!");
 			} catch (IOException e) {
+				getLogger().warning("Language " + s + " doesn't exist!");
+			} catch (NullPointerException e) {
 				getLogger().warning("Language " + s + " doesn't exist!");
 			} catch (InvalidConfigurationException e) {
 				getLogger().severe("Error loading language " + s + "!");
