@@ -1,5 +1,11 @@
 MOTD: This is the default MOTD
 Heal: true
 
+# Changes how the locale of players is detected
+# Valid options:
+# player: Use the player's client locale
+# permission: Use permissions to get the locale (Requires Vault) (Permission is raspess.lang.<language>)
+localeDetectMode: player
+
 langs:
  - en
