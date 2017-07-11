@@ -32,7 +32,7 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
         	} else {
         		log("Heal is disabled!");
         	}
-		getCommand("feed").setExecutor(new CommandFeed());
+		getCommand("feed").setExecutor(new CommandFeed(this));
 		getCommand("gamemode").setExecutor(new CommandGamemode());
 		getCommand("fly").setExecutor(new CommandFly());
 		getCommand("spawn").setExecutor(new CommandSpawn());

@@ -3,6 +3,7 @@
 /.settings
 .classpath
 build.bat
+copy.bat
 bukkit/.settings/
 sponge/.settings/
 sponge/.gitignore

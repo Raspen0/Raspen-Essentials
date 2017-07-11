@@ -5,10 +5,10 @@ version: 0.2
 prefix: RE
 commands:
    heal:
-      description: Heals The Player.
+      description: Heals the given player.
       usage: /heal {Player}
    feed:
-      description: Feeds The Player.
+      description: Restores the hunger of the given player.
       usage: /feed {Player}
    rereload:
       description: Reloads the RaspenEssentials Config
@@ -27,19 +27,19 @@ commands:
       description: Allows you to set the world spawn
       usage: /setspawn
 permissions:
-   raspen.heal:
+   raspess.heal:
       description: Allows you to heal yourself
       default: op
    raspen.reload:
       description: Reloads the config
       default: op
-   raspen.feed:
+   raspess.feed:
       description: Allows you to feed yourself
       default: op
-   raspen.feed.others:
+   raspess.feed.others:
       description: Allows you to feed other players
       default: op
-   raspen.heal.others:
+   raspess.heal.others:
       description: Allows you to heal other players
       default: op
    raspen.gamemode:

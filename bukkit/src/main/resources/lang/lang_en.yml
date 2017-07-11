@@ -1,6 +1,8 @@
 startup: "&4Hello &6World!"
 noPerm: "&cYou don't have permission for this"
 healed: "&aYou've been healed."
+fed: "&aYou're now full."
 healedOther: "&a%player has been healed."
+feedOther: "&a%player has been fed."
 notOnline: "&c%player is not online!"
 onlyPlayer: "&cThis command can only be run by a player!"

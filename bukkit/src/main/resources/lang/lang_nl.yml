@@ -1,6 +1,8 @@
 startup: Hallo wereld!
 noPerm: "&cJe hebt geen rechten voor dit"
 healed: "&aJe bent genezen."
+fed: "&aJe bent nu vol."
 healedOther: "&a%player is genezen."
+healedOther: "&a%player is gevoed."
 notOnline: "&c%player is niet online!"
 onlyPlayer: "&cDit commando kan alleen worden gebruikt door een speler!"
