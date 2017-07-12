@@ -2,6 +2,7 @@ package nl.raspen0.RaspenEssentials;
 
 import nl.raspen0.RaspenEssentials.commands.*;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -27,13 +28,15 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
     }
     
     private void loadCommands(){
-        if(getConfig().getBoolean("heal", true)){
+        if(getConfig().getBoolean("commands.heal", true)){
         	getCommand("heal").setExecutor(new CommandHeal(this));
-        	} else {
-        		log("Heal is disabled!");
-        	}
-		getCommand("feed").setExecutor(new CommandFeed(this));
-		getCommand("gamemode").setExecutor(new CommandGamemode());
+        }
+        if(getConfig().getBoolean("commands.feed", true)) {
+            getCommand("feed").setExecutor(new CommandFeed(this));
+        }
+        if(getConfig().getBoolean("commands.gamemode", true)) {
+            getCommand("gamemode").setExecutor(new CommandGamemode(this));
+        }
 		getCommand("fly").setExecutor(new CommandFly());
 		getCommand("spawn").setExecutor(new CommandSpawn());
 		getCommand("setspawn").setExecutor(new CommandSpawn()); 
@@ -45,7 +48,7 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
     }
     
     public void log(String s){
-    	Bukkit.getConsoleSender().sendMessage("[RE] " + s);
+    	Bukkit.getConsoleSender().sendMessage("[RE] " + ChatColor.translateAlternateColorCodes('&', s));
     }
     
 
@@ -53,6 +56,5 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
 	public void playerJoin(PlayerJoinEvent event) {
 		// On player join send them the message from config
 		event.getPlayer().sendMessage(RaspenEssentials.this.getConfig().getString("MOTD"));
-		event.getPlayer().sendMessage(getManager().getLangHandler().getMessage(event.getPlayer(), null, "startup"));
 	}
 }

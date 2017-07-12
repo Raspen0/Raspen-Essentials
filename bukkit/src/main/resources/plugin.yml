@@ -15,7 +15,7 @@ commands:
       usage: /rereload
    gamemode:
       description: Sets the gamemode
-      usage: /gamemode
+      usage: /gamemode (survival/creative/adventure/spectator) (player)
       aliases: [gm]
    fly:
       description: Toggles flying
@@ -28,25 +28,25 @@ commands:
       usage: /setspawn
 permissions:
    raspess.heal:
-      description: Allows you to heal yourself
+      description: Allows you to heal yourself.
       default: op
    raspen.reload:
       description: Reloads the config
       default: op
    raspess.feed:
-      description: Allows you to feed yourself
+      description: Allows you to feed yourself.
       default: op
    raspess.feed.others:
-      description: Allows you to feed other players
+      description: Allows you to feed other players.
       default: op
    raspess.heal.others:
-      description: Allows you to heal other players
+      description: Allows you to heal other players.
       default: op
-   raspen.gamemode:
-      description: Sets the gamemode
+   raspess.gamemode:
+      description: Allows you to change your gamemode.
       default: op
-   raspen.gamemode.others:
-      description: Sets the gamemode of another player
+   raspess.gamemode.others:
+      description: Allows you to change the gamemode of another player.
       default: op
    raspen.fly:
       description: Toggles flying

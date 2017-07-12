@@ -1,5 +1,9 @@
 MOTD: This is the default MOTD
-Heal: true
+
+commands:
+  heal: true
+  feed: true
+  gamemode: true
 
 # Changes how the locale of players is detected
 # Valid options:

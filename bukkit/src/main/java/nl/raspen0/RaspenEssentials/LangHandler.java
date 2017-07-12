@@ -15,7 +15,7 @@ import java.util.*;
 public class LangHandler {
 
 	private RaspenEssentials plugin;
-    private Map<String, String> langlist = new HashMap<String, String>();
+    private Map<String, String> langlist = new HashMap<>();
 	private List<String> loadedLangs;
 	int localemode = 0;
 
@@ -65,7 +65,7 @@ public class LangHandler {
     private void loadLangs(){
     	//Load the languages listed in the config
     	loadedLangs = plugin.getConfig().getStringList("langs");
-    	List<String> langs = new ArrayList<String>(loadedLangs);
+    	List<String> langs = new ArrayList<>(loadedLangs);
     	//Load enabled language overrides from /RaspenEssentials/lang/ if the folder exists
     	File dir = new File(plugin.getDataFolder() + "/lang/");
     	if(dir.exists()){
@@ -94,9 +94,7 @@ public class LangHandler {
 					langlist.put(s + key, defaults.getString(key));
 				}
 				plugin.log("Loaded " + s +  " language!");
-			} catch (IOException e) {
-				plugin.log(ChatColor.RED + "Language " + s + " doesn't exist!");
-			} catch (NullPointerException e) {
+			} catch (IOException | NullPointerException e) {
 				plugin.log(ChatColor.RED + "Language " + s + " doesn't exist!");
 			} catch (InvalidConfigurationException e) {
 				plugin.log(ChatColor.RED + "Error loading language " + s + "!");
