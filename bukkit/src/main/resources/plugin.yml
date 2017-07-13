@@ -54,9 +54,9 @@ permissions:
    raspess.fly.others:
       description: Allows you to toggle flying for other players.
       default: op
-   raspen.spawn:
+   raspess.spawn:
       description: Allows you to teleport to the world spawn
       default: true
-   raspen.setspawn:
+   raspess.setspawn:
       description: Allows you to set the world spawn
       default: op

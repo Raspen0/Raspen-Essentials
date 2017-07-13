@@ -1,16 +1,21 @@
 MOTD: This is the default MOTD
 
+# Here you can toggle commands.
 commands:
   heal: true
   feed: true
   gamemode: true
   fly: true
+  spawn: true
+  setspawn: true
 
-# Changes how the locale of players is detected
+# Changes how the locale of players is detected.
 # Valid options:
-# player: Use the player's client locale
-# permission: Use permissions to get the locale (Requires Vault) (Permission is raspess.lang.<language>)
-localeDetectMode: player
+# player: Use the player's client locale.
+# permission: Use permissions to get the locale (Requires Vault) (Permission is raspess.lang.<language>).
+localeDetectMode: permission
 
+# Here you can list the languages that should be loaded.
+# Current valid languages are: en (English) and nl (Dutch).
 langs:
  - en

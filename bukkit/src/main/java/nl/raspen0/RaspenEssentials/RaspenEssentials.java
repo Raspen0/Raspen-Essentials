@@ -40,8 +40,12 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
         if(getConfig().getBoolean("commands.fly", true)) {
             getCommand("fly").setExecutor(new CommandFly(this));
         }
-		getCommand("spawn").setExecutor(new CommandSpawn());
-		getCommand("setspawn").setExecutor(new CommandSpawn()); 
+        if(getConfig().getBoolean("commands.spawn", true)) {
+            getCommand("spawn").setExecutor(new CommandSpawn(this));
+        }
+        if(getConfig().getBoolean("commands.setspawn", true)) {
+            getCommand("setspawn").setExecutor(new CommandSetSpawn(this));
+        }
 		getCommand("rereload").setExecutor(new CommandReload(this));
     }
     
