@@ -6,20 +6,20 @@ prefix: RE
 commands:
    heal:
       description: Heals the given player.
-      usage: /heal {Player}
+      usage: /heal {player}
    feed:
       description: Restores the hunger of the given player.
-      usage: /feed {Player}
+      usage: /feed {player}
    rereload:
       description: Reloads the RaspenEssentials Config
       usage: /rereload
    gamemode:
-      description: Sets the gamemode
+      description: Sets the gamemode.
       usage: /gamemode (survival/creative/adventure/spectator) (player)
       aliases: [gm]
    fly:
-      description: Toggles flying
-      usage: /fly
+      description: Toggles flying for the given player.
+      usage: /fly {player} {true/false}
    spawn:
       description: Allows you to teleport to the world spawn
       usage: /spawn
@@ -48,8 +48,11 @@ permissions:
    raspess.gamemode.others:
       description: Allows you to change the gamemode of another player.
       default: op
-   raspen.fly:
-      description: Toggles flying
+   raspess.fly:
+      description: Allows you to toggle flying.
+      default: op
+   raspess.fly.others:
+      description: Allows you to toggle flying for other players.
       default: op
    raspen.spawn:
       description: Allows you to teleport to the world spawn

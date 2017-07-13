@@ -4,6 +4,7 @@ commands:
   heal: true
   feed: true
   gamemode: true
+  fly: true
 
 # Changes how the locale of players is detected
 # Valid options:

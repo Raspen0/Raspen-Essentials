@@ -37,7 +37,9 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
         if(getConfig().getBoolean("commands.gamemode", true)) {
             getCommand("gamemode").setExecutor(new CommandGamemode(this));
         }
-		getCommand("fly").setExecutor(new CommandFly());
+        if(getConfig().getBoolean("commands.fly", true)) {
+            getCommand("fly").setExecutor(new CommandFly(this));
+        }
 		getCommand("spawn").setExecutor(new CommandSpawn());
 		getCommand("setspawn").setExecutor(new CommandSpawn()); 
 		getCommand("rereload").setExecutor(new CommandReload(this));
