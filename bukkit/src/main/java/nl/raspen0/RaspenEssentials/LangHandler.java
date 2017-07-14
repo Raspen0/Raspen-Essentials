@@ -17,7 +17,7 @@ public class LangHandler {
 	private RaspenEssentials plugin;
     private Map<String, String> langlist = new HashMap<>();
 	private List<String> loadedLangs;
-	int localemode = 0;
+	public int localemode = 0;
 
 	public LangHandler(RaspenEssentials ess){
 		plugin = ess;
@@ -61,8 +61,13 @@ public class LangHandler {
 		
 		return message;
 	}
+	public void unloadLangs(){
+	    plugin.log(ChatColor.AQUA + "Languages unloaded!");
+        langlist.clear();
+        loadedLangs.clear();
+    }
 	
-    private void loadLangs(){
+    public void loadLangs(){
     	//Load the languages listed in the config
     	loadedLangs = plugin.getConfig().getStringList("langs");
     	List<String> langs = new ArrayList<>(loadedLangs);

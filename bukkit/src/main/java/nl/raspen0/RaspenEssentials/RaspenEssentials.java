@@ -46,11 +46,12 @@ public class RaspenEssentials extends JavaPlugin implements Listener {
         if(getConfig().getBoolean("commands.setspawn", true)) {
             getCommand("setspawn").setExecutor(new CommandSetSpawn(this));
         }
-		getCommand("rereload").setExecutor(new CommandReload(this));
+		getCommand("raspenessentials").setExecutor(new CommandMain(this));
     }
     
     @Override
     public void onDisable() {
+        getManager().getLangHandler().unloadLangs();
     }
     
     public void log(String s){

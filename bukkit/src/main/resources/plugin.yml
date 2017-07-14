@@ -1,7 +1,7 @@
 name: RaspenEssentials
 author: raspen0
 main: nl.raspen0.RaspenEssentials.RaspenEssentials
-version: 0.2
+version: ${project.version}
 prefix: RE
 commands:
    heal:
@@ -10,9 +10,10 @@ commands:
    feed:
       description: Restores the hunger of the given player.
       usage: /feed {player}
-   rereload:
-      description: Reloads the RaspenEssentials Config
-      usage: /rereload
+   raspenessentials:
+      description: Shows info about the plugin.
+      usage: /raspenessentials [reload]
+      aliases: [re]
    gamemode:
       description: Sets the gamemode.
       usage: /gamemode (survival/creative/adventure/spectator) (player)
@@ -30,8 +31,8 @@ permissions:
    raspess.heal:
       description: Allows you to heal yourself.
       default: op
-   raspen.reload:
-      description: Reloads the config
+   raspess.reload:
+      description: Reloads the plugin
       default: op
    raspess.feed:
       description: Allows you to feed yourself.

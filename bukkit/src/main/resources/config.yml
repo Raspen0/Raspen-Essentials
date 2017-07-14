@@ -17,5 +17,7 @@ localeDetectMode: permission
 
 # Here you can list the languages that should be loaded.
 # Current valid languages are: en (English) and nl (Dutch).
+# Remove the # before the language to enable it.
 langs:
  - en
+# - nl
