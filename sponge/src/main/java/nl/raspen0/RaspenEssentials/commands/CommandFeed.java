@@ -1,6 +1,5 @@
-package nl.raspen0.RaspenEssentials.Sponge;
+package nl.raspen0.RaspenEssentials.commands;
 
-import java.util.Optional;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -13,30 +12,34 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-public class CommandHeal implements CommandExecutor
+import java.util.Optional;
+
+public class CommandFeed implements CommandExecutor
 {
   public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
     Optional<Player> target = ctx.getOne("player");
     if (!target.isPresent()) {
       if (src instanceof Player) {
         Player player = (Player)src;
-        player.offer(Keys.HEALTH, (Double)player.get(Keys.MAX_HEALTH).get());
-        player.sendMessage(Text.of("You've been healed"));
+        player.offer(Keys.FOOD_LEVEL, 20);
+        player.offer(Keys.SATURATION, (double) 20);
+        player.sendMessage(Text.of("You're now feeded"));
       }
       if (src instanceof ConsoleSource || (src instanceof CommandBlockSource)){
     	  src.sendMessage(Text.of(TextColors.RED,("This command can only be run by a player")));
       }
     }
     else if(target.isPresent()) {
-    		if(src.hasPermission("raspen.heal.others")) {
+    		if(src.hasPermission("raspen.feed.others")) {
       Player player = (Player)target.get();
-      player.offer(Keys.HEALTH, (Double)player.get(Keys.MAX_HEALTH).get());
-      player.sendMessage(Text.of("You've been healed"));
+      player.offer(Keys.FOOD_LEVEL, 20);
+      player.offer(Keys.SATURATION, (double) 20);
+      player.sendMessage(Text.of("You're now feeded"));
       if (player != src) {
-        src.sendMessage(Text.of(player.getName() + " has been healed"));
+        src.sendMessage(Text.of(player.getName() + " has been feeded"));
       }
     } else {
-    		src.sendMessage(Text.of(TextColors.RED,("You do not have permission to heal other players")));
+    		src.sendMessage(Text.of(TextColors.RED,("You do not have permission to feed other players")));
     }
     } 
     return CommandResult.success();

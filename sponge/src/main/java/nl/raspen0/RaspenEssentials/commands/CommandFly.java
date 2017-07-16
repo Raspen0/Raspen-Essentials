@@ -1,4 +1,4 @@
-package nl.raspen0.RaspenEssentials.Sponge;
+package nl.raspen0.RaspenEssentials.commands;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

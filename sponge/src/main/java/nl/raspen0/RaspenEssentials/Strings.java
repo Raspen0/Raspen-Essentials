@@ -9,4 +9,6 @@ public class Strings {
 	public static String problemprefix = Color.RED + prefix;
 	public static String NoPerm = problemprefix + "You don't have the permission to use this";
 
+	public static final String version = "1.0";
+
 }

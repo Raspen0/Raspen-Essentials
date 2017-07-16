@@ -1,4 +1,4 @@
-package nl.raspen0.RaspenEssentials.Sponge;
+/*package nl.raspen0.RaspenEssentials.commands;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import nl.raspen0.RaspenEssentials.SpongeMain;
+import nl.raspen0.RaspenEssentials.RaspenEssentials;
 
 public class CommandMain implements CommandExecutor{
 
@@ -25,7 +25,7 @@ public class CommandMain implements CommandExecutor{
 		else if(target.isPresent()){
 			String targetString = target.get();
 			if(targetString.equals("version")){
-				src.sendMessage(Text.of(SpongeMain.name + " " + SpongeMain.version));
+				src.sendMessage(Text.of(RaspenEssentials.name + " " + RaspenEssentials.version));
 			}
 			else {
 	    		src.sendMessage(Text.of(TextColors.RED,("/raspenessentials [version/reload]")));
@@ -35,3 +35,4 @@ public class CommandMain implements CommandExecutor{
 	}
 
 }
+*/
