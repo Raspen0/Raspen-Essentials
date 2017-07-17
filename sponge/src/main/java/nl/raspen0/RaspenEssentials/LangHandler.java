@@ -98,7 +98,7 @@ public class LangHandler {
         loadedLangs.clear();
     }
 	
-    private void loadLangs(){
+    public void loadLangs(){
     	//Load the languages listed in the config
     	loadedLangs = plugin.getConfig().langs;
     	List<String> langs = new ArrayList<>(loadedLangs);

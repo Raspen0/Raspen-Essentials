@@ -31,7 +31,6 @@ public class CommandHeal implements CommandCallable {
             src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "noPerm")));
             return CommandResult.success();
         }
-        String[] args = arguments.split(" ");
         if (arguments.isEmpty()) {
             if (!(src instanceof Player)) {
                 src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "onlyPlayer")));
@@ -46,7 +45,8 @@ public class CommandHeal implements CommandCallable {
             src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "noPerm")));
             return CommandResult.success();
         }
-        System.out.println(args[0]);
+        String[] args = arguments.isEmpty() ? new String[]{} : arguments.split(" ");
+
         Player player = null;
         for(Player p : plugin.getGame().getServer().getOnlinePlayers()){
             if(p.getName().toLowerCase().contains(args[0].toLowerCase())){

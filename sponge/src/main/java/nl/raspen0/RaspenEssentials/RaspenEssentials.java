@@ -5,9 +5,7 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import nl.raspen0.RaspenEssentials.commands.CommandFeed;
-import nl.raspen0.RaspenEssentials.commands.CommandGamemode;
-import nl.raspen0.RaspenEssentials.commands.CommandHeal;
+import nl.raspen0.RaspenEssentials.commands.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
@@ -77,11 +75,13 @@ public class RaspenEssentials {
   @Listener
   public void onServerStart(GameStartedServerEvent event) throws IOException, ObjectMappingException {
       CommandManager cmdService = Sponge.getCommandManager();
+      cmdService.register(this, new CommandMain(this), "raspenessentials", "re");
 
       Map<String, CommandCallable> map = new HashMap<>();
       map.put("heal", new CommandHeal(this));
       map.put("feed", new CommandFeed(this));
       map.put("gamemode,gm", new CommandGamemode(this));
+      map.put("fly", new CommandFly(this));
 
       //Register commands in map
       ConfigurationNode root = null;
@@ -93,50 +93,17 @@ public class RaspenEssentials {
       }
       if(root != null) {
           for (String s : map.keySet()) {
-              Boolean value = root.getNode("commands", s).getBoolean(true);
+              String id = s.split(",")[0];
+              Boolean value = root.getNode("commands", id).getBoolean(true);
               if (value) {
                   cmdService.register(this, map.get(s), s.split(","));
-                  getLogger().info("Registering " + s.split(",")[0] + " command.");
+                  getLogger().info("Registering " + id + " command.");
               }
           }
       }
 
 
-
-
- //     for(String s : map.keySet()){
- //         try {
- //             Class aClass = config.commands.getClass();
- //             Method method = aClass.getMethod(s, null);
- //             boolean returnValue = (boolean) method.invoke(null, null);
- //             if(returnValue) {
- //                 cmdService.register(this, map.get(s), s);
- //             }
- //         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
- //             e.printStackTrace();
- //         }
-  //    }
-
-
-/*    CommandSpec mainCommandSpec =
-    CommandSpec.builder().description(Text.of("Main Command")).permission("raspen.main")
-    .arguments(GenericArguments.seq(new CommandElement[] {
-    GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.string(Text.of("argument")))) }))
-    .executor(new CommandMain()).build();
-
-    CommandSpec feedCommandSpec = 
-    CommandSpec.builder().description(Text.of("Feed Command")).permission("raspen.feed")
-    .arguments(GenericArguments.seq(new CommandElement[] {
-    GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
-    .executor(new CommandFeed()).build();
-    
-    CommandSpec gamemodeCommandSpec = 
-    CommandSpec.builder().description(Text.of("Gamemode Command")).permission("raspen.gamemode")
-    .arguments(GenericArguments.seq(new CommandElement[] {
-    GenericArguments.onlyOne(GenericArguments.string(Text.of("mode"))),
-    GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))) }))
-    .executor(new CommandGamemode()).build();
-    
+/*
     CommandSpec TPCommandSpec =
     CommandSpec.builder().description(Text.of("TP Command")).permission("raspen.tp.main")
     .arguments(GenericArguments.seq(new CommandElement[] {
@@ -146,16 +113,9 @@ public class RaspenEssentials {
     GenericArguments.optional(GenericArguments.string(Text.of("arg4")))}))
     .executor(new CommandTP()).build();
 
-    CommandSpec flyCommandSpec = 
-    CommandSpec.builder().description(Text.of("Fly Command")).permission("raspen.fly")
-    .executor(new CommandFly()).build();
     
  */
-  /*  getGame().getCommandManager().register(this, feedCommandSpec, new String[] { "feed" });
-    getGame().getCommandManager().register(this, gamemodeCommandSpec, new String[] { "gamemode", "gm" });
-    getGame().getCommandManager().register(this, mainCommandSpec, new String[] { "raspenessentials", "re" });
-    getGame().getCommandManager().register(this, TPCommandSpec, new String[] { "tp", "teleport" });
-    getGame().getCommandManager().register(this, flyCommandSpec, new String[] { "fly" });
+  /*  getGame().getCommandManager().register(this, TPCommandSpec, new String[] { "tp", "teleport" });
     */
   }
 
@@ -164,6 +124,21 @@ public class RaspenEssentials {
   //Messages will not appear in log files.
   public void logConsole(Text text){
       game.getServer().getConsole().sendMessage(text);
+  }
+
+  public void reloadConfig() throws IOException, ObjectMappingException {
+      config = new Config();
+      try {
+          loadConfig();
+      } catch (IOException ex) {
+          logger.error("Error loading config!");
+          mapDefault();
+          throw ex;
+      } catch (ObjectMappingException ex) {
+          logger.error("Invalid config file!");
+          mapDefault();
+          throw ex;
+      }
   }
 
   private void loadConfig() throws IOException, ObjectMappingException{
