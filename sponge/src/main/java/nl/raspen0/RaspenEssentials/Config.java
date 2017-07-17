@@ -13,9 +13,10 @@ public class Config {
     @Setting public String motd;
     @Setting public List<String> langs = ImmutableList.of();
     @Setting public String localeDetectMode;
-    @Setting public commands commands = new commands();
-    @ConfigSerializable
-    public static class commands  {
-        @Setting public Boolean heal;
-    }
+ //   @Setting public commands commands = new commands();
+ //   @ConfigSerializable
+ //   public static class commands  {
+ //       @Setting public Boolean heal;
+ //   }
+
 }

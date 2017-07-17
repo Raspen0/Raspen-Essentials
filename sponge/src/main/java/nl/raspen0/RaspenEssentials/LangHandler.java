@@ -10,6 +10,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -44,8 +45,14 @@ public class LangHandler {
 		plugin.getLogger().error(Text.builder("Could not detect language of player " + player.getName() + "!, using fallback language.").color(TextColors.RED).build().toPlain());
 		return "en";
 	}
-	
-	public Text getMessage(CommandSource sender, String lang, String messageID){
+
+	/**
+	 * @param sender The receiver of the message (Is used to get the language).
+	 * @param lang The language (Is used to override the language).
+	 * @param messageID The ID message to get.
+	 * @return The localised message.
+	 */
+	public Text getMessage(CommandSource sender, @Nullable String lang, String messageID){
 		if(sender != null){
 			//If player != null then get their language, otherwise use given lang.
 			lang = getLang(sender);
@@ -64,6 +71,27 @@ public class LangHandler {
 		
 		return message;
 	}
+
+	public Text getPlaceholderMessage(CommandSource sender, @Nullable String lang, String messageID, String[] placeholders, String[] replacements){
+        if(sender != null){
+            //If player != null then get their language, otherwise use given lang.
+            lang = getLang(sender);
+        }
+        Text message = null;
+        String s = langlist.get(lang + messageID);
+        int i = 0;
+            for(String p : placeholders){
+                s = s.replace(p, replacements[i]);
+                i++;
+            }
+        try{
+            message = TextSerializers.formattingCode('&').deserialize(s).toText();
+        } catch (NullPointerException e2){
+            plugin.getLogger().error(Text.builder("String " + messageID + " not found!").color(TextColors.RED).build().toPlain());
+        }
+        return message;
+    }
+
 	public void unloadLangs(){
 	    plugin.getLogger().info(Text.builder("Languages unloaded!").color(TextColors.AQUA).build().toPlain());
         langlist.clear();
@@ -84,7 +112,6 @@ public class LangHandler {
 				if(!file.exists()){
 					continue;
 				}
-				//FileConfiguration lang = YamlConfiguration.loadConfiguration(file);
                 try {
                     YAMLConfigurationLoader load = YAMLConfigurationLoader.builder().setFile(file).build();
                     ConfigurationNode rootNode = load.load();
@@ -95,7 +122,6 @@ public class LangHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
                 plugin.getLogger().info("Loaded custom " + it +  " language!");
 				//Remove lang from list so it doesn't get loaded 2 times.

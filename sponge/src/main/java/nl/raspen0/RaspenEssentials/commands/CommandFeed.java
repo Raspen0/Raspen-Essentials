@@ -1,47 +1,107 @@
 package nl.raspen0.RaspenEssentials.commands;
 
+import nl.raspen0.RaspenEssentials.RaspenEssentials;
+import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.source.CommandBlockSource;
-import org.spongepowered.api.command.source.ConsoleSource;
-import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class CommandFeed implements CommandExecutor
-{
-  public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
-    Optional<Player> target = ctx.getOne("player");
-    if (!target.isPresent()) {
-      if (src instanceof Player) {
-        Player player = (Player)src;
-        player.offer(Keys.FOOD_LEVEL, 20);
-        player.offer(Keys.SATURATION, (double) 20);
-        player.sendMessage(Text.of("You're now feeded"));
-      }
-      if (src instanceof ConsoleSource || (src instanceof CommandBlockSource)){
-    	  src.sendMessage(Text.of(TextColors.RED,("This command can only be run by a player")));
-      }
+public class CommandFeed implements CommandCallable {
+
+  private RaspenEssentials plugin;
+
+  public CommandFeed(RaspenEssentials ess){
+    plugin = ess;
+  }
+
+  @Override
+  //Command
+  public CommandResult process(CommandSource src, String arguments) throws CommandException {
+    if(!src.hasPermission("raspess.feed")){
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "noPerm")));
+      return CommandResult.success();
     }
-    else if(target.isPresent()) {
-    		if(src.hasPermission("raspen.feed.others")) {
-      Player player = (Player)target.get();
+    String[] args = arguments.split(" ");
+    if (arguments.isEmpty()) {
+      if (!(src instanceof Player)) {
+        src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "onlyPlayer")));
+        return CommandResult.success();
+      }
+      Player player = (Player) src;
       player.offer(Keys.FOOD_LEVEL, 20);
       player.offer(Keys.SATURATION, (double) 20);
-      player.sendMessage(Text.of("You're now feeded"));
-      if (player != src) {
-        src.sendMessage(Text.of(player.getName() + " has been feeded"));
-      }
-    } else {
-    		src.sendMessage(Text.of(TextColors.RED,("You do not have permission to feed other players")));
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "fed")));
+      return CommandResult.success();
     }
-    } 
+    if(!src.hasPermission("raspess.feed.others")) {
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "noPerm")));
+      return CommandResult.success();
+    }
+    System.out.println(args[0]);
+    Player player = null;
+    for(Player p : plugin.getGame().getServer().getOnlinePlayers()){
+      if(p.getName().toLowerCase().contains(args[0].toLowerCase())){
+        player = p;
+      }
+    }
+    if(player == null){
+      //src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline").replace("%player", args[0])));
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
+      return CommandResult.success();
+    }
+
+    player.offer(Keys.FOOD_LEVEL, 20);
+    player.offer(Keys.SATURATION, (double) 20);
+    src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "fed")));
+    if (player != src) {
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "feedOther", new String[]{"%player"}, new String[] {args[0]})));
+    }
     return CommandResult.success();
+  }
+
+  @Override
+  //Tab Complete
+  public List<String> getSuggestions(CommandSource src, String args, @Nullable Location<World> location) throws CommandException {
+    List<String> list = new ArrayList<>();
+    if (args.isEmpty()) {
+      for (Player p : plugin.getGame().getServer().getOnlinePlayers()) {
+        list.add(p.getName());
+      }
+    }
+    return list;
+  }
+
+  @Override
+  public boolean testPermission(CommandSource src) {
+    return false;
+  }
+
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+  private final Optional<Text> desc = Optional.of(Text.of("/feed <player>"));
+
+  @Override
+  public Optional<Text> getShortDescription(CommandSource src) {
+    return desc;
+  }
+
+  @Override
+  //Hover
+  public Optional<Text> getHelp(CommandSource src) {
+    return desc;
+  }
+
+  @Override
+  public Text getUsage(CommandSource src) {
+    return Text.of("/feed (player)");
   }
 }

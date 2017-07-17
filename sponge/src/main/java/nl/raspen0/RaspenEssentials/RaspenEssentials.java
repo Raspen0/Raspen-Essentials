@@ -5,11 +5,14 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import nl.raspen0.RaspenEssentials.commands.CommandFeed;
+import nl.raspen0.RaspenEssentials.commands.CommandGamemode;
 import nl.raspen0.RaspenEssentials.commands.CommandHeal;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
+import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
@@ -23,6 +26,8 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 @Plugin(id="raspenessentials", name="RaspenEssentials", version= Strings.version)
 public class RaspenEssentials {
@@ -68,12 +73,49 @@ public class RaspenEssentials {
         }
     }
 
+
   @Listener
-  public void onServerStart(GameStartedServerEvent event) {
+  public void onServerStart(GameStartedServerEvent event) throws IOException, ObjectMappingException {
       CommandManager cmdService = Sponge.getCommandManager();
-      if(config.commands.heal) {
-          cmdService.register(this, new CommandHeal(this), "heal");
+
+      Map<String, CommandCallable> map = new HashMap<>();
+      map.put("heal", new CommandHeal(this));
+      map.put("feed", new CommandFeed(this));
+      map.put("gamemode,gm", new CommandGamemode(this));
+
+      //Register commands in map
+      ConfigurationNode root = null;
+      try {
+          root = configLoader.load();
+      } catch (IOException e) {
+          logger.error("Error loading config!");
+          mapDefault();
       }
+      if(root != null) {
+          for (String s : map.keySet()) {
+              Boolean value = root.getNode("commands", s).getBoolean(true);
+              if (value) {
+                  cmdService.register(this, map.get(s), s.split(","));
+                  getLogger().info("Registering " + s.split(",")[0] + " command.");
+              }
+          }
+      }
+
+
+
+
+ //     for(String s : map.keySet()){
+ //         try {
+ //             Class aClass = config.commands.getClass();
+ //             Method method = aClass.getMethod(s, null);
+ //             boolean returnValue = (boolean) method.invoke(null, null);
+ //             if(returnValue) {
+ //                 cmdService.register(this, map.get(s), s);
+ //             }
+ //         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+ //             e.printStackTrace();
+ //         }
+  //    }
 
 
 /*    CommandSpec mainCommandSpec =
