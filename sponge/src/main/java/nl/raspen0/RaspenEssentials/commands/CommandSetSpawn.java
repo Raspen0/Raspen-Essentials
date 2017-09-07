@@ -43,7 +43,7 @@ public class CommandSetSpawn implements CommandCallable {
         Player player = (Player) src;
         Location loc = player.getLocation();
         //Save new spawn to config.
-       // player.getWorld().getProperties().setSpawnPosition(new Vector3i(loc.getX(), loc.getY(), loc.getZ()));
+       //player.getWorld().getProperties().setSpawnPosition(new Vector3i(loc.getX(), loc.getY(), loc.getZ()));
         setSpawn(player);
         player.sendMessage(plugin.getManager().getLangHandler().getPlaceholderMessage(player, null, "setSpawn", new String[]{"%x", "%y", "%z"},
                 new String[]{String.valueOf(loc.getX()), String.valueOf(loc.getY()), String.valueOf(loc.getZ())}));
@@ -72,8 +72,8 @@ public class CommandSetSpawn implements CommandCallable {
             root.getNode("spawn", "rotationZ").setValue(player.getRotation().getZ());
             loader.save(root);
 
-            plugin.spawnloc = new Location<>(player.getWorld(), loc.getX(), loc.getY(), loc.getZ());
-            plugin.spawnrotation = player.getRotation();
+            plugin.getManager().getSpawnHandler().spawnloc = new Location<>(player.getWorld(), loc.getX(), loc.getY(), loc.getZ());
+            plugin.getManager().getSpawnHandler().spawnrotation = player.getRotation();
 
         } catch (IOException e) {
             e.printStackTrace();

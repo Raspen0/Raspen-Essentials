@@ -2,7 +2,6 @@ package nl.raspen0.RaspenEssentials.commands;
 
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import nl.raspen0.RaspenEssentials.RaspenEssentials;
-import nl.raspen0.RaspenEssentials.Strings;
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -32,10 +31,10 @@ public class CommandMain implements CommandCallable {
         if (arguments.isEmpty()) {
             src.sendMessage(Text.builder("RaspenEssentials, developed by ").color(TextColors.AQUA).append(Text.builder("raspen0")
                     .color(TextColors.YELLOW).append(Text.builder(".").color(TextColors.AQUA).build()).build()).build());
-            src.sendMessage(Text.builder("Version: ").color(TextColors.AQUA).append(Text.builder(Strings.version).color(TextColors.YELLOW).build()).build());
+            src.sendMessage(Text.builder("Version: ").color(TextColors.AQUA).append(Text.builder(plugin.version).color(TextColors.YELLOW).build()).build());
             return CommandResult.success();
         }
-        String[] args = arguments.isEmpty() ? new String[]{} : arguments.split(" ");
+        String[] args = arguments.split(" ");
         if (args[0].equalsIgnoreCase("reload")) {
             if (!src.hasPermission("raspess.reload")) {
                 src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "noPerm")));
@@ -43,12 +42,12 @@ public class CommandMain implements CommandCallable {
             }
             plugin.getManager().getLangHandler().unloadLangs();
             try {
-                plugin.reloadConfig();
+                plugin.getManager().getConfigHandler().reloadConfig();
             } catch (IOException | ObjectMappingException e) {
                 e.printStackTrace();
             }
             plugin.getManager().getLangHandler().loadLangs();
-            if (plugin.getConfig().localeDetectMode.equals("permission")) {
+            if (plugin.getManager().getConfigHandler().getConfig().localeDetectMode.equals("permission")) {
                 plugin.getManager().getLangHandler().localemode = 1;
             } else {
                 plugin.getManager().getLangHandler().localemode = 0;

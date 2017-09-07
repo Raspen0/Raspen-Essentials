@@ -55,7 +55,7 @@ public class CommandSpawn implements CommandCallable {
             }
         }
 
-            if(!target.setLocationAndRotationSafely(plugin.spawnloc, plugin.spawnrotation)){
+            if(!target.setLocationAndRotationSafely(plugin.getManager().getSpawnHandler().spawnloc, plugin.getManager().getSpawnHandler().spawnrotation)){
                 target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "spawnNotSafe"));
             } else {
                 target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "spawn"));

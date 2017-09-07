@@ -100,10 +100,10 @@ public class LangHandler {
 	
     public void loadLangs(){
     	//Load the languages listed in the config
-    	loadedLangs = plugin.getConfig().langs;
+    	loadedLangs = plugin.getManager().getConfigHandler().getConfig().langs;
     	List<String> langs = new ArrayList<>(loadedLangs);
     	//Load enabled language overrides from /RaspenEssentials/lang/ if the folder exists
-        File dir = new File(plugin.dir.toFile() + "/lang/");
+        File dir = new File(plugin.configDir + "/lang/");
     	if(dir.exists()){
     		Iterator<String> iterator = langs.iterator();
     		while(iterator.hasNext()){
