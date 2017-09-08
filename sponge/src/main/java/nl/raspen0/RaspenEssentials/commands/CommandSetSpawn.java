@@ -67,9 +67,8 @@ public class CommandSetSpawn implements CommandCallable {
             root.getNode("spawn", "x").setValue(loc.getX());
             root.getNode("spawn", "y").setValue(loc.getY());
             root.getNode("spawn", "z").setValue(loc.getZ());
-            root.getNode("spawn", "rotationX").setValue(player.getRotation().getX());
-            root.getNode("spawn", "rotationY").setValue(player.getRotation().getY());
-            root.getNode("spawn", "rotationZ").setValue(player.getRotation().getZ());
+            root.getNode("spawn", "pitch").setValue(player.getRotation().getX());
+            root.getNode("spawn", "yaw").setValue(player.getRotation().getY());
             loader.save(root);
 
             plugin.getManager().getSpawnHandler().spawnloc = new Location<>(player.getWorld(), loc.getX(), loc.getY(), loc.getZ());

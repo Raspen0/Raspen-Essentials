@@ -3,7 +3,6 @@ package nl.raspen0.RaspenEssentials;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import nl.raspen0.RaspenEssentials.commands.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -64,12 +63,17 @@ public class RaspenEssentials {
 
 
   @Listener
-  public void onServerStart(GameStartedServerEvent event) throws IOException, ObjectMappingException {
+  public void onServerStart(GameStartedServerEvent event) {
       manager.serverStart(this);
       if (manager.getConfigHandler().getConfig().localeDetectMode.equals("permission")) {
           manager.getLangHandler().localemode = 1;
       }
-      getGame().getEventManager().registerListeners(this, getManager().getSpawnHandler());
+
+      registerEvents();
+      regsiterCommands();
+  }
+
+  private void regsiterCommands(){
       CommandManager cmdService = Sponge.getCommandManager();
       cmdService.register(this, new CommandMain(this), "raspenessentials", "re");
 
@@ -100,6 +104,10 @@ public class RaspenEssentials {
               }
           }
       }
+  }
+
+  private void registerEvents(){
+      getGame().getEventManager().registerListeners(this, getManager().getSpawnHandler());
   }
 
   //Sends Text to the console

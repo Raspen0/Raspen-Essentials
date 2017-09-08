@@ -45,8 +45,8 @@ public class PlayerDataHandler {
             node.getNode("respawnLocation", "x").setValue(data.getRespawnLoc().getX());
             node.getNode("respawnLocation", "y").setValue(data.getRespawnLoc().getY());
             node.getNode("respawnLocation", "z").setValue(data.getRespawnLoc().getZ());
-            node.getNode("respawnLocation", "rotationX").setValue(data.getRespawnRotation().getX());
-            node.getNode("respawnLocation", "rotationY").setValue(data.getRespawnRotation().getY());
+            node.getNode("respawnLocation", "pitch").setValue(data.getRespawnRotation().getX());
+            node.getNode("respawnLocation", "yaw").setValue(data.getRespawnRotation().getY());
             node.getNode("respawnLocation", "world").setValue(data.getRespawnWorld().getName());
 
             loader.save(node);
@@ -86,7 +86,7 @@ public class PlayerDataHandler {
         } else {
             loc = new Vector3d(node.getNode("respawnLocation", "x").getDouble(), node.getNode("respawnLocation", "y").getDouble(),
                     node.getNode("respawnLocation", "z").getDouble());
-            rotation = new Vector3d(node.getNode("respawnLocation", "rotationX").getDouble(), node.getNode("respawnLocation", "rotationY").getDouble(), 0);
+            rotation = new Vector3d(node.getNode("respawnLocation", "pitch").getFloat(), node.getNode("respawnLocation", "yaw").getFloat(), 0);
             world =  plugin.getGame().getServer().getWorld(node.getNode("respawnLocation", "world").getString()).get();
         }
 

@@ -70,13 +70,13 @@ public class ConfigHandler {
         }
     }
 
-    public void mapDefault() throws IOException, ObjectMappingException {
+    public void mapDefault() {
         try {
             config = loadDefault().getValue(Config.type);
-        } catch (IOException | ObjectMappingException ex) {
+        } catch (IOException | ObjectMappingException e) {
             plugin.getLogger().error("Could not load the embedded default config! Disabling plugin.");
             plugin.getGame().getEventManager().unregisterPluginListeners(this);
-            throw ex;
+            e.printStackTrace();
         }
     }
 

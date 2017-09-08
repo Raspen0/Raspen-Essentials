@@ -87,10 +87,10 @@ public class SpawnHandler {
             Double x = root.getNode("spawn", "x").getDouble();
             Double y = root.getNode("spawn", "y").getDouble();
             Double z = root.getNode("spawn", "z").getDouble();
-            Double rotationX = root.getNode("spawn", "rotationX").getDouble();
-            Double rotationY = root.getNode("spawn", "rotationY").getDouble();
+            Float pitch = root.getNode("spawn", "pitch").getFloat();
+            Float yaw = root.getNode("spawn", "yaw").getFloat();
 
-            spawnrotation = new Vector3d(rotationX, rotationY, 0);
+            spawnrotation = new Vector3d(pitch, yaw, 0);
             spawnloc = new Location<>(world, x, y, z);
 
         } catch (IOException e) {
