@@ -10,10 +10,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class CommandSpawn implements CommandExecutor {
 
-	private RaspenEssentials plugin;
+	private final RaspenEssentials plugin;
 
-	public CommandSpawn(RaspenEssentials ess){
-		plugin = ess;
+	public CommandSpawn(RaspenEssentials plugin){
+		this.plugin = plugin;
 	}
 
 
@@ -48,7 +48,7 @@ public class CommandSpawn implements CommandExecutor {
 				}
 			}
 			//Teleport player to spawn
-			target.teleport(target.getWorld().getSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
+			target.teleport(plugin.getManager().getSpawnHandler().spawnloc, PlayerTeleportEvent.TeleportCause.COMMAND);
 			target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "spawn"));
 		}
 		return true;

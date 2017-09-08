@@ -12,7 +12,7 @@ commands:
 # Changes how the locale of players is detected.
 # Valid options:
 # player: Use the player's client locale.
-# permission: Use permissions to get the locale (Requires Vault) (Permission is raspess.lang.<language>).
+# permission: Use permissions to get the locale (Permission is raspess.lang.<language>).
 localeDetectMode: permission
 
 # Here you can list the languages that should be loaded.

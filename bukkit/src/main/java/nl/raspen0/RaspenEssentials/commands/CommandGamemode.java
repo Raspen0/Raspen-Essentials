@@ -52,8 +52,6 @@ public class CommandGamemode implements CommandExecutor {
                 }
                 //Change Target's Gamemode
                 GamemodeChange(target, sender, true, args[0]);
-                //Send sender message that target gamemode has been changed.
-
                 return true;
             }
 				

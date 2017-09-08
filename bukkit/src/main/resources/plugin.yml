@@ -27,6 +27,9 @@ commands:
    setspawn:
       description: Allows you to set the world spawn
       usage: /setspawn
+   spawnpoint:
+      description: Allows you to set a players respawn point.
+      usage: /spawnpoint (player) (x) (y) (z) (world)
 permissions:
    raspess.heal:
       description: Allows you to heal yourself.
