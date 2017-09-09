@@ -73,6 +73,9 @@ public class RaspenEssentials {
       regsiterCommands();
   }
 
+    /**
+     * Registers the commands.
+     */
   private void regsiterCommands(){
       CommandManager cmdService = Sponge.getCommandManager();
       cmdService.register(this, new CommandMain(this), "raspenessentials", "re");
@@ -105,14 +108,18 @@ public class RaspenEssentials {
           }
       }
   }
-
+    /**
+     * Registers the events.
+     */
   private void registerEvents(){
       getGame().getEventManager().registerListeners(this, getManager().getSpawnHandler());
   }
 
-  //Sends Text to the console
-  //Used for sending colored messages to the console
-  //Messages will not appear in log files.
+    /**
+     * Sends Text to the console.<br>
+     * Used for sending colored messages to the console.<br>
+     * Messages will not appear in log files.
+     */
   public void logConsole(Text text){
       game.getServer().getConsole().sendMessage(text);
   }

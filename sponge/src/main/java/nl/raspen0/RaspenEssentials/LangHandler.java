@@ -47,6 +47,7 @@ public class LangHandler {
 	}
 
 	/**
+	 * Gets a localised message in the given language.
 	 * @param sender The receiver of the message (Is used to get the language).
 	 * @param lang The language (Is used to override the language).
 	 * @param messageID The ID message to get.
@@ -71,8 +72,16 @@ public class LangHandler {
 		
 		return message;
 	}
-
-	public Text getPlaceholderMessage(CommandSource sender, @Nullable String lang, String messageID, String[] placeholders, String[] replacements){
+	/**
+     * Gets a localised message in the given language.
+	 * @param sender The receiver of the message (Is used to get the language).
+	 * @param lang The language (Is used to override the language).
+	 * @param messageID The ID message to get.
+     * @param placeholders A array of strings from the message that will be replaced.
+     * @param replacements A array of strings that contains the replacements for the placeholders.
+	 * @return The localised message.
+	 */
+	public Text getMessage(CommandSource sender, @Nullable String lang, String messageID, String[] placeholders, String[] replacements){
         if(sender != null){
             //If player != null then get their language, otherwise use given lang.
             lang = getLang(sender);
@@ -92,12 +101,18 @@ public class LangHandler {
         return message;
     }
 
+    /**
+     * Unloads the lang files.
+     */
 	public void unloadLangs(){
 	    plugin.getLogger().info(Text.builder("Languages unloaded!").color(TextColors.AQUA).build().toPlain());
         langlist.clear();
         loadedLangs.clear();
     }
-	
+
+    /**
+     * Loads the lang files.
+     */
     public void loadLangs(){
     	//Load the languages listed in the config
     	loadedLangs = plugin.getManager().getConfigHandler().getConfig().langs;

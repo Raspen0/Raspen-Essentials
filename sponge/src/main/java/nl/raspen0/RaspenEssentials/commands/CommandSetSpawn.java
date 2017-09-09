@@ -4,12 +4,14 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import nl.raspen0.RaspenEssentials.RELocation;
 import nl.raspen0.RaspenEssentials.RaspenEssentials;
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -45,11 +47,15 @@ public class CommandSetSpawn implements CommandCallable {
         //Save new spawn to config.
        //player.getWorld().getProperties().setSpawnPosition(new Vector3i(loc.getX(), loc.getY(), loc.getZ()));
         setSpawn(player);
-        player.sendMessage(plugin.getManager().getLangHandler().getPlaceholderMessage(player, null, "setSpawn", new String[]{"%x", "%y", "%z"},
+        player.sendMessage(plugin.getManager().getLangHandler().getMessage(player, null, "setSpawn", new String[]{"%x", "%y", "%z"},
                 new String[]{String.valueOf(loc.getX()), String.valueOf(loc.getY()), String.valueOf(loc.getZ())}));
         return CommandResult.success();
     }
 
+    /**
+     * Sets the server spawn.
+     * @param player The player who's location is going to be the new spawn.
+     */
     private void setSpawn(Player player){
         File dataFile = new File(plugin.configDir, "spawn.conf");
         try {
@@ -57,22 +63,37 @@ public class CommandSetSpawn implements CommandCallable {
                 plugin.getGame().getAssetManager().getAsset(plugin, "spawn.conf").get().copyToFile(dataFile.toPath());
             }
 
-            ConfigurationNode root;
-            ConfigurationLoader<CommentedConfigurationNode> loader =
-                    HoconConfigurationLoader.builder().setFile(dataFile).build();
-            root = loader.load();
-
             Location loc = player.getLocation();
-            root.getNode("spawn", "world").setValue(player.getWorld().getName());
-            root.getNode("spawn", "x").setValue(loc.getX());
-            root.getNode("spawn", "y").setValue(loc.getY());
-            root.getNode("spawn", "z").setValue(loc.getZ());
-            root.getNode("spawn", "pitch").setValue(player.getRotation().getX());
-            root.getNode("spawn", "yaw").setValue(player.getRotation().getY());
-            loader.save(root);
+            String world = player.getWorld().getName();
+            double x = loc.getX();
+            double y = loc.getY();
+            double z = loc.getZ();
+            double pitch = player.getHeadRotation().getX();
+            double yaw = player.getHeadRotation().getY();
 
-            plugin.getManager().getSpawnHandler().spawnloc = new Location<>(player.getWorld(), loc.getX(), loc.getY(), loc.getZ());
-            plugin.getManager().getSpawnHandler().spawnrotation = player.getRotation();
+            //Async
+            Task.builder().execute(
+                    () -> {
+                        try {
+                            System.out.println("Set Spawn");
+                            ConfigurationNode root;
+                            ConfigurationLoader<CommentedConfigurationNode> loader =
+                                    HoconConfigurationLoader.builder().setFile(dataFile).build();
+                            root = loader.load();
+                            root.getNode("spawn", "world").setValue(world);
+                            root.getNode("spawn", "x").setValue(x);
+                            root.getNode("spawn", "y").setValue(y);
+                            root.getNode("spawn", "z").setValue(z);
+                            root.getNode("spawn", "pitch").setValue(pitch);
+                            root.getNode("spawn", "yaw").setValue(yaw);
+                            loader.save(root);
+
+                            plugin.getManager().getSpawnHandler().spawnloc = new RELocation(world, x, y, z, pitch, yaw);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+            ).async().submit(plugin);
 
         } catch (IOException e) {
             e.printStackTrace();

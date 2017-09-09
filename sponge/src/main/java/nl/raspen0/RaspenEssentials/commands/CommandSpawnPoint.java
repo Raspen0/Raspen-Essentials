@@ -1,6 +1,7 @@
 package nl.raspen0.RaspenEssentials.commands;
 
 import com.flowpowered.math.vector.Vector3d;
+import nl.raspen0.RaspenEssentials.RELocation;
 import nl.raspen0.RaspenEssentials.RaspenEssentials;
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
@@ -39,8 +40,9 @@ public class CommandSpawnPoint implements CommandCallable {
             Player player = (Player) src;
             //Set player spawnpoint
             Location loc = player.getLocation();
-            plugin.getManager().getSpawnHandler().setRespawn(player.getName(), player.getWorld(), player.getLocation().getPosition(), player.getRotation());
-            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "setPlayerSpawn",
+            plugin.getManager().getSpawnHandler().setRespawn(player.getName(), new RELocation(player.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),
+                            player.getHeadRotation().getX(), player.getHeadRotation().getY()));
+            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "setPlayerSpawn",
                     new String[] {"%player", "%world", "%x", "%y", "%z"}, new String[]{player.getName(), player.getWorld().getName(), String.valueOf(loc.getPosition().getFloorX()),
                             String.valueOf(loc.getPosition().getFloorY()), String.valueOf(loc.getPosition().getFloorZ())})));
             return CommandResult.success();
@@ -64,7 +66,7 @@ public class CommandSpawnPoint implements CommandCallable {
         }
         if(target == null){
             //TODO: When playerfiles are done, offline spawn setting will be possible.
-            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
+            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
             return CommandResult.success();
         }
 
@@ -83,11 +85,12 @@ public class CommandSpawnPoint implements CommandCallable {
         } else {
             Player player = (Player) src;
             loc = player.getLocation().getPosition();
-            rotation = player.getRotation();
+            rotation = player.getHeadRotation();
             world = player.getWorld();
         }
-        plugin.getManager().getSpawnHandler().setRespawn(target.getName(), world, loc, rotation);
-        src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "setPlayerSpawn",
+        plugin.getManager().getSpawnHandler().setRespawn(target.getName(), new RELocation(world.getName(), loc.getX(), loc.getY(), loc.getZ(),
+                rotation.getX(), rotation.getY()));
+        src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "setPlayerSpawn",
                 new String[] {"%player", "%world", "%x", "%y", "%z"}, new String[]{target.getName(), world.getName(), String.valueOf(loc.getFloorX()),
                         String.valueOf(loc.getFloorY()), String.valueOf(loc.getFloorZ())})));
         return CommandResult.success();

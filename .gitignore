@@ -7,4 +7,6 @@ copy.bat
 bukkit/.settings/
 sponge/.settings/
 sponge/.gitignore
+sponge/dependency-reduced-pom.xml
+bukkit/dependency-reduced-pom.xml
 bukkit/.gitignore

@@ -56,7 +56,7 @@ public class CommandFeed implements CommandCallable {
     }
     if(player == null){
       //src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline").replace("%player", args[0])));
-      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
       return CommandResult.success();
     }
 
@@ -64,7 +64,7 @@ public class CommandFeed implements CommandCallable {
     player.offer(Keys.SATURATION, (double) 20);
     src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "fed")));
     if (player != src) {
-      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "feedOther", new String[]{"%player"}, new String[] {args[0]})));
+      src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "feedOther", new String[]{"%player"}, new String[] {args[0]})));
     }
     return CommandResult.success();
   }

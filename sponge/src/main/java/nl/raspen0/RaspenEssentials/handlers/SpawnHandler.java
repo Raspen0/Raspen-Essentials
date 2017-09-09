@@ -5,6 +5,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import nl.raspen0.RaspenEssentials.RELocation;
 import nl.raspen0.RaspenEssentials.RaspenEssentials;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
@@ -23,18 +24,21 @@ import java.util.NoSuchElementException;
 public class SpawnHandler {
 
     private final RaspenEssentials plugin;
-    public Location<World> spawnloc;
-    public Vector3d spawnrotation;
+    public RELocation spawnloc;
 
     public SpawnHandler(RaspenEssentials plugin){
         this.plugin = plugin;
         loadSpawn();
     }
 
-    public void setRespawn(String playername, World world, Vector3d loc, Vector3d rotation){
+    /**
+     * Sets the respawn point of the given player.
+     * @param playername The name of the player.
+     * @param loc The location that will be the new respawn point.
+     */
+    public void setRespawn(String playername, RELocation loc){
+        System.out.println("Set respawn: " + loc.getX() + "," + loc.getY() + "," + loc.getZ());
         plugin.getManager().getPlayerDataHandler().playerdata.get(playername).setRespawnLoc(loc);
-        plugin.getManager().getPlayerDataHandler().playerdata.get(playername).setRespawnRotation(rotation);
-        plugin.getManager().getPlayerDataHandler().playerdata.get(playername).setRespawnWorld(world);
         plugin.getManager().getPlayerDataHandler().saveRespawnLoc(playername);
     }
 
@@ -42,15 +46,16 @@ public class SpawnHandler {
     public void playerSleep(SleepingEvent event){
         Player player = (Player) event.getTargetEntity();
         Location loc = player.getLocation();
-        setRespawn(player.getName(), player.getWorld(), loc.getPosition(), new Vector3d(0, 0, 0));
+        setRespawn(player.getName(), new RELocation(player.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),
+                player.getHeadRotation().getX(), player.getHeadRotation().getY()));
     }
 
     @Listener
     public void playerRespawn(RespawnPlayerEvent event){
-        String playername = event.getTargetEntity().getName();
-        Transform<World> transform = new Transform<>(plugin.getManager().getPlayerDataHandler().playerdata.get(playername).getRespawnWorld(),
-                plugin.getManager().getPlayerDataHandler().playerdata.get(playername).getRespawnLoc(),
-                plugin.getManager().getPlayerDataHandler().playerdata.get(playername).getRespawnRotation());
+        RELocation loc = plugin.getManager().getPlayerDataHandler().playerdata.get(event.getTargetEntity().getName()).getRespawnLoc();
+
+        Transform<World> transform = new Transform<>(plugin.getGame().getServer().getWorld(loc.getWorld()).get(),
+                new Vector3d(loc.getX(), loc.getY(), loc.getZ()), new Vector3d(loc.getPitch(), loc.getYaw(), 0));
         event.setToTransform(transform);
     }
 
@@ -59,7 +64,9 @@ public class SpawnHandler {
         plugin.getManager().getPlayerDataHandler().playerdata.remove(e.getTargetEntity().getName());
     }
 
-
+    /**
+     * Loads the spawn location from spawn.conf.
+     */
     private void loadSpawn(){
         File dataFile = new File(plugin.configDir, "spawn.conf");
         try {
@@ -78,20 +85,18 @@ public class SpawnHandler {
             } catch (NoSuchElementException e){
                 //Load world spawn if spawn in config is not set yet or invalid.
                 plugin.getLogger().error("Spawn world not found!");
-                spawnloc = new Location<>(plugin.getGame().getServer().getWorld(plugin.getGame().getServer().getDefaultWorldName()).get(),
-                        plugin.getGame().getServer().getDefaultWorld().get().getSpawnPosition());
-                spawnrotation = new Vector3d(0, 0, 0);
+                spawnloc = new RELocation(plugin.getGame().getServer().getDefaultWorldName(), plugin.getGame().getServer().getDefaultWorld().get().getSpawnPosition()
+                , new Vector3d(0, 0, 0));
                 return;
             }
 
-            Double x = root.getNode("spawn", "x").getDouble();
-            Double y = root.getNode("spawn", "y").getDouble();
-            Double z = root.getNode("spawn", "z").getDouble();
-            Float pitch = root.getNode("spawn", "pitch").getFloat();
-            Float yaw = root.getNode("spawn", "yaw").getFloat();
+            double x = root.getNode("spawn", "x").getDouble();
+            double y = root.getNode("spawn", "y").getDouble();
+            double z = root.getNode("spawn", "z").getDouble();
+            double pitch = root.getNode("spawn", "pitch").getFloat();
+            double yaw = root.getNode("spawn", "yaw").getFloat();
 
-            spawnrotation = new Vector3d(pitch, yaw, 0);
-            spawnloc = new Location<>(world, x, y, z);
+            spawnloc = new RELocation(world.getName(), x, y, z, pitch, yaw);
 
         } catch (IOException e) {
             e.printStackTrace();

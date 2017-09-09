@@ -61,7 +61,7 @@ public class CommandGamemode implements CommandCallable {
             }
             if (player == null) {
                 //src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline").replace("%player", args[0])));
-                src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[1]})));
+                src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[1]})));
                 return CommandResult.success();
             }
 
@@ -122,11 +122,11 @@ public class CommandGamemode implements CommandCallable {
 
 		try {
             target.offer(Keys.GAME_MODE, map.get(gamemode.toLowerCase()));
-			target.sendMessage(plugin.getManager().getLangHandler().getPlaceholderMessage(target, null, "gamemodeChange",
+			target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "gamemodeChange",
                     new String[]{"%gm"}, new String[]{gamemode.toLowerCase()}));
 			plugin.getLogger().info(target.getName() + "'s gamemode changed to " + gamemode.toLowerCase());
 			if(other){
-				sender.sendMessage(plugin.getManager().getLangHandler().getPlaceholderMessage(sender, null, "gamemodeChangeOther", new String[]{"%gm", "%player"},
+				sender.sendMessage(plugin.getManager().getLangHandler().getMessage(sender, null, "gamemodeChangeOther", new String[]{"%gm", "%player"},
                         new String[] {gamemode.toLowerCase(), target.getName()}));
 			}
 		} catch(IllegalArgumentException e){

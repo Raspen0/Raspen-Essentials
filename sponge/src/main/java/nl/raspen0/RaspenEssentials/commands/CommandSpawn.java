@@ -1,5 +1,7 @@
 package nl.raspen0.RaspenEssentials.commands;
 
+import com.flowpowered.math.vector.Vector3d;
+import nl.raspen0.RaspenEssentials.RELocation;
 import nl.raspen0.RaspenEssentials.RaspenEssentials;
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
@@ -50,12 +52,13 @@ public class CommandSpawn implements CommandCallable {
             }
             if(target == null){
                 //src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline").replace("%player", args[0])));
-                src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
+                src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
                 return CommandResult.success();
             }
         }
-
-            if(!target.setLocationAndRotationSafely(plugin.getManager().getSpawnHandler().spawnloc, plugin.getManager().getSpawnHandler().spawnrotation)){
+        RELocation loc = plugin.getManager().getSpawnHandler().spawnloc;
+            if(!target.setLocationAndRotationSafely(new Location<>(plugin.getGame().getServer().getWorld(loc.getWorld()).get(),
+                            new Vector3d(loc.getX(), loc.getY(), loc.getZ())), new Vector3d(loc.getPitch(), loc.getYaw(), 0))){
                 target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "spawnNotSafe"));
             } else {
                 target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "spawn"));

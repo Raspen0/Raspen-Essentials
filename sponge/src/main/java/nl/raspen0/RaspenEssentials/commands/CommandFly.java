@@ -56,7 +56,7 @@ public class CommandFly implements CommandCallable {
                 }
             }
             if(target == null){
-                src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
+                src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
                 return CommandResult.success();
             }
 		}
@@ -74,7 +74,7 @@ public class CommandFly implements CommandCallable {
         target.sendMessage(plugin.getManager().getLangHandler().getMessage(target, null, "fly" + flight));
         if (args.length >= 1 && !self) {
             System.out.println(args.length);
-            src.sendMessage(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "flyOther" + flight, new String[]{"%player"}, new String[]{args[0]}));
+            src.sendMessage(plugin.getManager().getLangHandler().getMessage(src, null, "flyOther" + flight, new String[]{"%player"}, new String[]{args[0]}));
         }
 		return CommandResult.success();
 	}

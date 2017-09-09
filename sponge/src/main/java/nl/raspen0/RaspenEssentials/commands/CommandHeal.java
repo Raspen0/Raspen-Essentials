@@ -55,14 +55,14 @@ public class CommandHeal implements CommandCallable {
         }
         if(player == null){
             //src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline").replace("%player", args[0])));
-            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
+            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "notOnline", new String[]{"%player"}, new String[] {args[0]})));
             return CommandResult.success();
         }
 
         player.offer(Keys.HEALTH, player.get(Keys.MAX_HEALTH).get());
         src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "healed")));
         if (player != src) {
-            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getPlaceholderMessage(src, null, "healedOther", new String[]{"%player"}, new String[] {args[0]})));
+            src.sendMessage(Text.of(plugin.getManager().getLangHandler().getMessage(src, null, "healedOther", new String[]{"%player"}, new String[] {args[0]})));
         }
         return CommandResult.success();
     }
